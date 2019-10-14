@@ -1,0 +1,9 @@
+version: "3"
+services:
+  payara:
+    build: Docker-Images/Payara-image/Dockerfile
+    context: .
+
+  SQLite3:
+    build: Docker-Images/DB-image/Dockerfile
+    context: .
