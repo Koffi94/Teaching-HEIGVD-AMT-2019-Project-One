@@ -5,11 +5,11 @@
          version="3.1">
   <display-name>Archetype Created Web Application</display-name>
   <servlet>
-    <servlet-name>QuoteServlet</servlet-name>
-    <servlet-class>ch.heigvd.amt.projectone.presentation.QuoteServlet</servlet-class>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>ch.heigvd.amt.projectone.presentation.LoginServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>QuoteServlet</servlet-name>
-    <url-pattern>/quotes</url-pattern>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/login</url-pattern>
   </servlet-mapping>
 </web-app>
