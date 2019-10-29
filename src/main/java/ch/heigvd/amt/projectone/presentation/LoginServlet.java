@@ -1,5 +1,9 @@
 package ch.heigvd.amt.projectone.presentation;
 
+import ch.heigvd.amt.projectone.services.dao.UserManager;
+import ch.heigvd.amt.projectone.services.dao.UserManagerLocal;
+
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -15,8 +19,8 @@ import java.io.PrintWriter;
  */
 public class LoginServlet extends javax.servlet.http.HttpServlet {
 
-    private final String username = "admin";
-    private final String password = "adminpw";
+    @EJB
+    private UserManagerLocal userManager;
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response)
             throws javax.servlet.ServletException, IOException{
@@ -25,11 +29,12 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Just an example before the DAO implementation
+
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        if (this.username.equals(username) && this.password.equals(password)) {
+
+        if (userManager.checkIfUserExists(username, password)) {
             //get the old session and invalidate
             HttpSession oldSession = request.getSession(false);
             if (oldSession != null) {
