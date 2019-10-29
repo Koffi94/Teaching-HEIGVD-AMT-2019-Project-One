@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 
 import java.sql.*;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -54,28 +55,28 @@ public class SessionManager implements  SessionManagerLocal {
     }
 
     @Override
-    public LinkedList<Session> findAllSessions(User owner) {
-        LinkedList<Session> sessions = new LinkedList<>();
+    public List<Session> getAllSessions(User user) {
+        List<Session> sessions = new LinkedList<>();
         try {
             Connection connection = dataSource.getConnection();
 
             PreparedStatement pstmt = connection.prepareStatement(
-                    "SELECT session.id, session.time, session.roomName, session.roomProperty, movie.id, movie.name, movie.releaseDate, movie.category FROM session " +
-                            "INNER JOIN user ON session.owner = user.username " +
-                            "INNER JOIN movie ON session.movie = movie.id " +
-                            "WHERE user.username = ?");
-            pstmt.setString(1, owner.getUsername());
+                    "SELECT session.session_id, session.session_time, session.room_name, session.room_property, movie.movie_id, movie.name, movie.release_date, movie.category FROM session " +
+                            "INNER JOIN user ON session.user_id = user.user_id " +
+                            "INNER JOIN movie ON session.movie_id = movie.movie_id " +
+                            "WHERE user.user_id = ?");
+            pstmt.setInt(1, user.getId());
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                int sessionId = rs.getInt("session.id");
-                Timestamp sessionTime = rs.getTimestamp("session.time");
-                String roomName = rs.getString("session.roomName");
-                String roomProperty = rs.getString("session.roomProperty");
-                int movieId = rs.getInt("movie.id");
+                int sessionId = rs.getInt("session.session_id");
+                Timestamp sessionTime = rs.getTimestamp("session.session_time");
+                String roomName = rs.getString("session.room_name");
+                String roomProperty = rs.getString("session.room_property");
+                int movieId = rs.getInt("movie.movie_id");
                 String movieName = rs.getString("movie.name");
-                Date movieReleaseDate = rs.getDate("movie.releaseDate");
+                Date movieReleaseDate = rs.getDate("movie.release_date");
                 String movieCategory = rs.getString("movie.category");
-                sessions.add(new Session(sessionId, sessionTime, roomName, roomProperty, new Movie(movieId, movieName, movieReleaseDate, movieCategory), owner));
+                sessions.add(new Session(sessionId, sessionTime, roomName, roomProperty, new Movie(movieId, movieName, movieReleaseDate, movieCategory), user));
             }
             connection.close();
         } catch(SQLException e) {

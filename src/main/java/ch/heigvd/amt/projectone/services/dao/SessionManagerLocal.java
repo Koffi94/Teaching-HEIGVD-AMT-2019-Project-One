@@ -6,14 +6,14 @@ import ch.heigvd.amt.projectone.model.User;
 
 import javax.ejb.Local;
 import java.sql.Timestamp;
-import java.util.LinkedList;
+import java.util.List;
 
 @Local
 public interface SessionManagerLocal {
 
     // CRUD
     public void createSession(Timestamp sessionTime, String roomName, String roomProperty, Movie movie, User owner);
-    public LinkedList<Session> findAllSessions(User owner);
+    public List<Session> getAllSessions(User owner);
     public void updateSession(int sessionId, Timestamp sessionTime, String roomName, String roomProperty, Movie movie, User owner);
     public void deleteSession(int sessionId);
 

@@ -24,8 +24,8 @@ public class UserManager implements UserManagerLocal {
     }
 
     @Override
-    public boolean checkIfUserExists(String username, String password) {
-        boolean userExists = false;
+    public User getUser(String username, String password) {
+        User user = null;
         try {
             Connection connection = dataSource.getConnection();
             System.out.println("Schema: " + connection.getSchema());
@@ -33,12 +33,16 @@ public class UserManager implements UserManagerLocal {
             pstmt.setString(1, username);
             pstmt.setString(2, password);
             ResultSet rs = pstmt.executeQuery();
-            // rs.next() returns true if at least oen record exists
-            userExists = rs.next();
+
+            // rs.next() returns false if no user exists
+            if(rs.next() == false) {
+                return user;
+            }
+            user = new User(rs.getInt("user_id"), rs.getString("username"), rs.getString("password"), rs.getBoolean("active"));
         } catch (SQLException e) {
             Logger.getLogger(SessionManager.class.getName()).log(Level.SEVERE, null, e);
         }
-        return userExists;
+        return user;
     }
 
     @Override

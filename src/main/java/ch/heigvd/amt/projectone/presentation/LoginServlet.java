@@ -1,6 +1,7 @@
 package ch.heigvd.amt.projectone.presentation;
 
-import ch.heigvd.amt.projectone.services.dao.UserManager;
+import ch.heigvd.amt.projectone.model.User;
+import ch.heigvd.amt.projectone.services.dao.SessionManagerLocal;
 import ch.heigvd.amt.projectone.services.dao.UserManagerLocal;
 
 import javax.ejb.EJB;
@@ -22,19 +23,19 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
     @EJB
     private UserManagerLocal userManager;
 
+    @EJB
+    private SessionManagerLocal sessionManager;
+
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response)
             throws javax.servlet.ServletException, IOException{
-        request.getRequestDispatcher("./WEB-INF/pages/login.jsp").forward(request, response);
+        request.getRequestDispatcher("./login.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-
-
-        if (userManager.checkIfUserExists(username, password)) {
+        User user = userManager.getUser(request.getParameter("username"), request.getParameter("password"));
+        if (user != null) {
             //get the old session and invalidate
             HttpSession oldSession = request.getSession(false);
             if (oldSession != null) {
@@ -48,11 +49,13 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
 
             Cookie message = new Cookie("message", "Welcome");
             response.addCookie(message);
+
+            request.setAttribute("sessions", sessionManager.getAllSessions(user));
             request.getRequestDispatcher("./WEB-INF/pages/dashboard.jsp").forward(request, response);
         } else {
-            PrintWriter out = response.getWriter();
-            out.println("<font color=red>Either username or password is wrong.</font>");
-            request.getRequestDispatcher("./WEB-INF/pages/login.jsp").forward(request, response);
+            //PrintWriter out = response.getWriter();
+            //out.println("<script>alert(\"Wrong password !\");</script>");
+            request.getRequestDispatcher("./login.jsp").forward(request, response);
         }
     }
 }
