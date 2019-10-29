@@ -18,11 +18,6 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
     private final String username = "admin";
     private final String password = "adminpw";
 
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-    }
-
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response)
             throws javax.servlet.ServletException, IOException{
         request.getRequestDispatcher("./WEB-INF/pages/login.jsp").forward(request, response);
@@ -50,11 +45,9 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
             response.addCookie(message);
             request.getRequestDispatcher("./WEB-INF/pages/dashboard.jsp").forward(request, response);
         } else {
-
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/loginPage.html");
             PrintWriter out = response.getWriter();
             out.println("<font color=red>Either username or password is wrong.</font>");
-            rd.include(request, response);
+            request.getRequestDispatcher("./WEB-INF/pages/login.jsp").forward(request, response);
         }
     }
 }
