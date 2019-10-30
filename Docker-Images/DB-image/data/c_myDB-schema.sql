@@ -14,7 +14,7 @@ CREATE TABLE user (
   user_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   username VARCHAR(45) NOT NULL UNIQUE,
   password VARCHAR(512) NOT NULL,
-  active BOOLEAN NOT NULL,
+  active BOOLEAN NOT NULL DEFAULT TRUE,
   PRIMARY KEY  (user_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -24,28 +24,28 @@ CREATE TABLE user (
 
 CREATE TABLE movie (
   movie_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  name VARCHAR(45) NOT NULL,
-  release_date DATE NOT NULL,
+  title VARCHAR(45) NOT NULL,
+  release_year YEAR DEFAULT NULL,
   category VARCHAR(45) NOT NULL,
   PRIMARY KEY  (movie_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Table structure for table `session`
+-- Table structure for table `screening`
 --
 
-CREATE TABLE session (
-  session_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  session_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+CREATE TABLE screening (
+  screening_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  screening_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   room_name VARCHAR(45) NOT NULL,
   room_property VARCHAR(45) NOT NULL,
   user_id INT UNSIGNED NOT NULL,
   movie_id INT UNSIGNED NOT NULL,
-  PRIMARY KEY  (session_id),
+  PRIMARY KEY  (screening_id),
   KEY idx_fk_user_id (user_id),
   KEY idx_fk_movie_id (movie_id),
-  CONSTRAINT fk_session_user FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT fk_session_MOVIE FOREIGN KEY (movie_id) REFERENCES movie (movie_id) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT fk_screening_user FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT fk_screening_movie FOREIGN KEY (movie_id) REFERENCES movie (movie_id) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 SET SQL_MODE=@OLD_SQL_MODE;

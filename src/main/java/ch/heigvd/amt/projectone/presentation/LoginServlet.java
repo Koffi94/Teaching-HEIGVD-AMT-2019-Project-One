@@ -1,19 +1,16 @@
 package ch.heigvd.amt.projectone.presentation;
 
 import ch.heigvd.amt.projectone.model.User;
-import ch.heigvd.amt.projectone.services.dao.SessionManagerLocal;
+import ch.heigvd.amt.projectone.services.dao.ScreeningManagerLocal;
 import ch.heigvd.amt.projectone.services.dao.UserManagerLocal;
 
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * Servlet in charge of the login
@@ -24,7 +21,7 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
     private UserManagerLocal userManager;
 
     @EJB
-    private SessionManagerLocal sessionManager;
+    private ScreeningManagerLocal screeningManager;
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response)
             throws javax.servlet.ServletException, IOException{
@@ -50,7 +47,7 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
             Cookie message = new Cookie("message", "Welcome");
             response.addCookie(message);
 
-            request.setAttribute("sessions", sessionManager.getAllSessions(user));
+            request.setAttribute("screenings", screeningManager.getAllScreenings(user));
             request.getRequestDispatcher("./WEB-INF/pages/dashboard.jsp").forward(request, response);
         } else {
             //PrintWriter out = response.getWriter();

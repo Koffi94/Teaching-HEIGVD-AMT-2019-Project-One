@@ -1,7 +1,7 @@
 package ch.heigvd.amt.projectone.model;
 
 import java.sql.Date;
-import lombok.Builder;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -11,15 +11,15 @@ import lombok.Getter;
 
 public class Movie {
 
-    private int id;
-    private String name;
-    private Date releaseDate;
+    private int movieId;
+    private String title;
+    private Date releaseYear;
     private String category;
 
-    public Movie(int id, String name, Date releaseDate, String category) {
-        this.id = id;
-        this.name = name;
-        this.releaseDate = releaseDate;
+    public Movie(int movieId, String title, Date releaseYear, String category) {
+        this.movieId = movieId;
+        this.title = title;
+        this.releaseYear = releaseYear;
         this.category = category;
     }
 }

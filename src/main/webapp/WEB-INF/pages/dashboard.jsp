@@ -191,22 +191,22 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <C:forEach items="${sessions}" var="session">
+                  <C:forEach items="${screenings}" var="screening">
                     <tr>
                       <td>
-                        ${session.movie.name}
+                        ${screening.movie.title} (${screening.movie.releaseYear})
                       </td>
                       <td>
-                          ${session.time}
+                          ${screening.screeningTime}
                       </td>
                       <td>
-                          ${session.roomName}
+                          ${screening.roomName}
                       </td>
                       <td>
-                          ${session.roomProperty}
+                          ${screening.roomProperty}
                       </td>
                       <td>
-                          ${session.movie.category}
+                          ${screening.movie.category}
                       </td>
                     </tr>
                   </C:forEach>

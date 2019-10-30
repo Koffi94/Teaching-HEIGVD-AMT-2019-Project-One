@@ -16,12 +16,12 @@ COMMIT;
 
 SET AUTOCOMMIT=0;
 INSERT INTO movie VALUES
-(1,'The Ring','2003-10-11','Horror'),
-(2,'Elite','2018-05-07','Teenager');
+(1,'The Ring','2003','Horror'),
+(2,'Elite','2018','Teenager');
 COMMIT;
 
 SET AUTOCOMMIT=0;
-INSERT INTO session VALUES
+INSERT INTO screening VALUES
 (1,'1970-01-01 14:00:01','R08','3D', 1, 1),
 (2,'1970-01-01 17:30:02','R07','2D', 2, 2);
 COMMIT;

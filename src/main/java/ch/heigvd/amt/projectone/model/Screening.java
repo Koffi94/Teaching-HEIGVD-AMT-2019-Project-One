@@ -1,25 +1,25 @@
 package ch.heigvd.amt.projectone.model;
 
 import java.sql.Timestamp;
-import lombok.Builder;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 //@Builder(toBuilder = true)
 @EqualsAndHashCode
 @Getter
-public class Session {
+public class Screening {
 
-    private int id;
-    private Timestamp time;
+    private int screeningId;
+    private Timestamp screeningTime;
     private String roomName;
     private String roomProperty;
     private Movie movie;
     private User owner;
 
-    public Session(int id, Timestamp time, String roomName, String roomProperty, Movie movie, User owner) {
-        this.id = id;
-        this.time = time;
+    public Screening(int screeningId, Timestamp screeningTime, String roomName, String roomProperty, Movie movie, User owner) {
+        this.screeningId = screeningId;
+        this.screeningTime = screeningTime;
         this.roomName = roomName;
         this.roomProperty = roomProperty;
         this.movie = movie;

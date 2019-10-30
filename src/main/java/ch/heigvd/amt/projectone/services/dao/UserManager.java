@@ -28,7 +28,6 @@ public class UserManager implements UserManagerLocal {
         User user = null;
         try {
             Connection connection = dataSource.getConnection();
-            System.out.println("Schema: " + connection.getSchema());
             PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM user WHERE username = ? AND password = ?");
             pstmt.setString(1, username);
             pstmt.setString(2, password);
@@ -40,7 +39,7 @@ public class UserManager implements UserManagerLocal {
             }
             user = new User(rs.getInt("user_id"), rs.getString("username"), rs.getString("password"), rs.getBoolean("active"));
         } catch (SQLException e) {
-            Logger.getLogger(SessionManager.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(ScreeningManager.class.getName()).log(Level.SEVERE, null, e);
         }
         return user;
     }
