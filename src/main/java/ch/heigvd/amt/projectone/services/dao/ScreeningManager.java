@@ -105,6 +105,7 @@ public class ScreeningManager implements ScreeningManagerLocal {
             pstmt.setString(3, movie.getCategory());
             pstmt.setInt(4, movie.getMovieId());
             pstmt.executeUpdate();
+            connection.close();
         } catch(SQLException e) {
             Logger.getLogger(ScreeningManager.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -119,6 +120,7 @@ public class ScreeningManager implements ScreeningManagerLocal {
             PreparedStatement pstmt = connection.prepareStatement("DELETE FROM screening WHERE screening_id = ?");
             pstmt.setInt(1, screeningId);
             pstmt.executeUpdate();
+            connection.close();
         } catch(SQLException e) {
             Logger.getLogger(ScreeningManager.class.getName()).log(Level.SEVERE, null, e);
         }

@@ -33,6 +33,8 @@
   <link href="./assets/js/plugins/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
   <!-- CSS Files -->
   <link href="./assets/css/argon-dashboard.css?v=1.1.0" rel="stylesheet" />
+  <!-- MDBootstrap Datatables  -->
+  <link href="./assets/css/addons/datatables.min.css" rel="stylesheet">
 </head>
 
 <body class="">
@@ -180,7 +182,7 @@
               <h3 class="text-white mb-0">Card tables</h3>
             </div>
             <div class="table-responsive">
-              <table class="table align-items-center table-dark table-flush">
+              <table id="dtBasicExample" class="table align-items-center table-dark table-flush table-striped table-sm" cellspacing="0" width="100%">
                 <thead class="thead-dark">
                   <tr>
                     <th scope="col">Movie</th>
@@ -225,6 +227,14 @@
   <!--   Argon JS   -->
   <script src="./assets/js/argon-dashboard.min.js?v=1.1.0"></script>
   <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <!-- MDBootstrap Datatables  -->
+  <script type="text/javascript" src="./assets/js/addons/datatables.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#dtBasicExample').DataTable();
+      $('.dataTables_length').addClass('bs-select');
+    });
+  </script>
 </body>
 
 </html>

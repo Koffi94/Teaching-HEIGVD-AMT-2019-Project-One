@@ -21,16 +21,28 @@ public class UserManager implements UserManagerLocal {
     @Override
     public void createUser(String username, String password, boolean active) {
 
+        if(getUser(username) == null) {
+            try {
+                Connection connection = dataSource.getConnection();
+                PreparedStatement pstmt = connection.prepareStatement("INSERT INTO user VALUES (?, ?, ?)");
+                pstmt.setString(1, username);
+                pstmt.setString(2, password);
+                pstmt.setBoolean(3, active);
+                pstmt.executeUpdate();
+                connection.close();
+            } catch (SQLException e) {
+                Logger.getLogger(ScreeningManager.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
     }
 
     @Override
-    public User getUser(String username, String password) {
+    public User getUser(String username) {
         User user = null;
         try {
             Connection connection = dataSource.getConnection();
-            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM user WHERE username = ? AND password = ?");
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM user WHERE username = ?");
             pstmt.setString(1, username);
-            pstmt.setString(2, password);
             ResultSet rs = pstmt.executeQuery();
 
             // rs.next() returns false if no user exists
@@ -38,6 +50,7 @@ public class UserManager implements UserManagerLocal {
                 return user;
             }
             user = new User(rs.getInt("user_id"), rs.getString("username"), rs.getString("password"), rs.getBoolean("active"));
+            connection.close();
         } catch (SQLException e) {
             Logger.getLogger(ScreeningManager.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -46,11 +59,33 @@ public class UserManager implements UserManagerLocal {
 
     @Override
     public void updateUser(String username, String password, boolean active) {
-
+        if(getUser(username) != null) {
+            try {
+                Connection connection = dataSource.getConnection();
+                PreparedStatement pstmt = connection.prepareStatement("UPDATE user SET username = ?, password = ?, active = ?");
+                pstmt.setString(1, username);
+                pstmt.setString(2, password);
+                pstmt.setBoolean(3, active);
+                pstmt.executeUpdate();
+                connection.close();
+            } catch (SQLException e) {
+                Logger.getLogger(ScreeningManager.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
     }
 
     @Override
-    public void deleteUser(String username, String password) {
-
+    public void deleteUser(String username) {
+        if(getUser(username) == null) {
+            try {
+                Connection connection = dataSource.getConnection();
+                PreparedStatement pstmt = connection.prepareStatement("DELETE FROM user WHERE username = ?");
+                pstmt.setString(1, username);
+                pstmt.executeUpdate();
+                connection.close();
+            } catch (SQLException e) {
+                Logger.getLogger(ScreeningManager.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
     }
 }

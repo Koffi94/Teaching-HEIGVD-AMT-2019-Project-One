@@ -31,8 +31,8 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        User user = userManager.getUser(request.getParameter("username"), request.getParameter("password"));
-        if (user != null) {
+        User user = userManager.getUser(request.getParameter("username"));
+        if (user != null && user.getPassword().equals(request.getParameter("password"))) {
             //get the old session and invalidate
             HttpSession oldSession = request.getSession(false);
             if (oldSession != null) {
