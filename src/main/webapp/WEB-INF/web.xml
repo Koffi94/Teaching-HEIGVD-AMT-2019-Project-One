@@ -8,8 +8,40 @@
     <servlet-name>LoginServlet</servlet-name>
     <servlet-class>ch.heigvd.amt.projectone.presentation.LoginServlet</servlet-class>
   </servlet>
-  <servlet-mapping>
+  <servlet>
+      <servlet-name>DeleteScreeningServlet</servlet-name>
+      <servlet-class>ch.heigvd.amt.projectone.presentation.DeleteScreeningServlet</servlet-class>
+  </servlet>
+    <servlet>
+        <servlet-name>CreateScreeningServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.projectone.presentation.CreateScreeningServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DetailScreeningServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.projectone.presentation.DetailScreeningServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DetailMovieServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.projectone.presentation.DetailMovieServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
     <servlet-name>LoginServlet</servlet-name>
     <url-pattern>/login</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DeleteScreeningServlet</servlet-name>
+    <url-pattern>/deleteScreening</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CreateScreeningServlet</servlet-name>
+    <url-pattern>/createScreening</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DetailScreeningServlet</servlet-name>
+        <url-pattern>/detailScreening</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DetailMovieServlet</servlet-name>
+        <url-pattern>/detailMovie</url-pattern>
+    </servlet-mapping>
 </web-app>

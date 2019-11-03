@@ -5,6 +5,7 @@ import ch.heigvd.amt.projectone.model.Screening;
 import ch.heigvd.amt.projectone.model.User;
 
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.sql.DataSource;
 
@@ -19,6 +20,12 @@ public class ScreeningManager implements ScreeningManagerLocal {
 
     @Resource(lookup = "jdbc/myDB")
     private DataSource dataSource;
+
+    @EJB
+    private UserManagerLocal userManager;
+
+    @EJB
+    private MovieManagerLocal movieManager;
 
     @Override
     public void createScreening(Timestamp screeningTime, String roomName, String roomProperty, Movie movie, User owner) {
@@ -55,7 +62,29 @@ public class ScreeningManager implements ScreeningManagerLocal {
     }
 
     @Override
-    public List<Screening> getAllScreenings(User user) {
+    public Screening getScreening(int screeningId) {
+        Screening screening = null;
+        try {
+            Connection connection = dataSource.getConnection();
+
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM screening WHERE screening_id = ?");
+            pstmt.setInt(1, screeningId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if(rs.next()) {
+                User user = userManager.getUser(rs.getInt("user_id"));
+                Movie movie = movieManager.findMovieByTitle("movie_id");
+                screening = new Screening(rs.getInt("screening_id"), rs.getTimestamp("screening_time"), rs.getString("room_name"), rs.getString("room_property"), user, movie);
+            }
+            connection.close();
+        } catch(SQLException e) {
+            Logger.getLogger(ScreeningManager.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return screening;
+    }
+
+    @Override
+    public List<Screening> findScreeningsByOwner(User user) {
         List<Screening> screenings = new LinkedList<>();
         try {
             Connection connection = dataSource.getConnection();
@@ -65,7 +94,7 @@ public class ScreeningManager implements ScreeningManagerLocal {
                             "INNER JOIN user ON screening.user_id = user.user_id " +
                             "INNER JOIN movie ON screening.movie_id = movie.movie_id " +
                             "WHERE user.user_id = ?");
-            pstmt.setInt(1, user.getId());
+            pstmt.setInt(1, user.getUserId());
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 int screeningId = rs.getInt("screening.screening_id");
@@ -76,7 +105,7 @@ public class ScreeningManager implements ScreeningManagerLocal {
                 String movieTitle = rs.getString("movie.title");
                 Date movieReleaseYear = rs.getDate("movie.release_year");
                 String movieCategory = rs.getString("movie.category");
-                screenings.add(new Screening(screeningId, screeningTime, roomName, roomProperty, new Movie(movieId, movieTitle, movieReleaseYear, movieCategory), user));
+                screenings.add(new Screening(screeningId, screeningTime, roomName, roomProperty, user, new Movie(movieId, movieTitle, movieReleaseYear, movieCategory)));
             }
             System.out.println("SCREENINGS: " + screenings.get(0).getMovie().getReleaseYear());
             connection.close();
@@ -116,7 +145,6 @@ public class ScreeningManager implements ScreeningManagerLocal {
         try {
             Connection connection = dataSource.getConnection();
 
-            // Check if the movie already exists. Create it if needed
             PreparedStatement pstmt = connection.prepareStatement("DELETE FROM screening WHERE screening_id = ?");
             pstmt.setInt(1, screeningId);
             pstmt.executeUpdate();

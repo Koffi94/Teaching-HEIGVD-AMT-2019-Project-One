@@ -24,7 +24,7 @@ CREATE TABLE user (
 
 CREATE TABLE movie (
   movie_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  title VARCHAR(45) NOT NULL,
+  title VARCHAR(45) NOT NULL UNIQUE,
   release_year YEAR DEFAULT NULL,
   category VARCHAR(45) NOT NULL,
   PRIMARY KEY  (movie_id)

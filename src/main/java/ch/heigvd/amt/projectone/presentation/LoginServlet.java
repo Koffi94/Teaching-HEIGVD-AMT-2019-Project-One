@@ -31,7 +31,7 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        User user = userManager.getUser(request.getParameter("username"));
+        User user = userManager.findUserByName(request.getParameter("username"));
         if (user != null && user.getPassword().equals(request.getParameter("password"))) {
             //get the old session and invalidate
             HttpSession oldSession = request.getSession(false);
@@ -47,7 +47,8 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
             Cookie message = new Cookie("message", "Welcome");
             response.addCookie(message);
 
-            request.setAttribute("screenings", screeningManager.getAllScreenings(user));
+            request.setAttribute("user", user);
+            request.setAttribute("screenings", screeningManager.findScreeningsByOwner(user));
             request.getRequestDispatcher("./WEB-INF/pages/dashboard.jsp").forward(request, response);
         } else {
             //PrintWriter out = response.getWriter();

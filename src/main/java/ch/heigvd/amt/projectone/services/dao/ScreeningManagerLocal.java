@@ -13,7 +13,8 @@ public interface ScreeningManagerLocal {
 
     // CRUD
     public void createScreening(Timestamp screeningTime, String roomName, String roomProperty, Movie movie, User owner);
-    public List<Screening> getAllScreenings(User owner);
+    public Screening getScreening(int screeningId);
+    public List<Screening> findScreeningsByOwner(User owner);
     public void updateScreening(int screeningId, Timestamp screeningTime, String roomName, String roomProperty, Movie movie, User owner);
     public void deleteScreening(int screeningId);
 

@@ -22,7 +22,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>
-    Argon Dashboard - Free Dashboard for Bootstrap 4 by Creative Tim
+    AMT - Project One
   </title>
   <!-- Favicon -->
   <link href="./assets/img/brand/favicon.png" rel="icon" type="image/png">
@@ -99,17 +99,6 @@
             </div>
           </div>
         </div>
-        <!-- Form -->
-        <form class="mt-4 mb-3 d-md-none">
-          <div class="input-group input-group-rounded input-group-merge">
-            <input type="search" class="form-control form-control-rounded form-control-prepended" placeholder="Search" aria-label="Search">
-            <div class="input-group-prepend">
-              <div class="input-group-text">
-                <span class="fa fa-search"></span>
-              </div>
-            </div>
-          </div>
-        </form>
         <!-- Navigation -->
         <ul class="navbar-nav">
           <li class="nav-item"  class="active" >
@@ -123,8 +112,48 @@
     <!-- Navbar -->
     <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
       <div class="container-fluid">
-        <!-- Brand -->
-        <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">Movies</a>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#newScreeningModal">
+          New Screening
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="newScreeningModal" tabindex="-1" role="dialog" aria-labelledby="newScreeningModal" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Screening</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form method="post" action="./CreateScreening">
+                  <div class="form-group">
+                    <label class="form-control-label">Movie</label>
+                    <input type="text" class="form-control" id="movie_name">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label">Screening Time</label>
+                    <textarea class="form-control" id="screening_time"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label">Room Name</label>
+                    <textarea class="form-control" id="room_name"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label">Room Property</label>
+                    <textarea class="form-control" id="room_property"></textarea>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" data-dismiss="modal">Create</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Form -->
         <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
           <div class="form-group mb-0">
@@ -145,7 +174,7 @@
                   <img alt="Image placeholder" src="./assets/img/theme/sketch.jpg">
                 </span>
                 <div class="media-body ml-2 d-none d-lg-block">
-                  <span class="mb-0 text-sm  font-weight-bold">Username</span>
+                  <span class="mb-0 text-sm  font-weight-bold">${user.username}</span>
                 </div>
               </div>
             </a>
@@ -188,15 +217,14 @@
                     <th scope="col">Movie</th>
                     <th scope="col">Session</th>
                     <th scope="col">Room</th>
-                    <th scope="col">Version</th>
-                    <th scope="col">Category</th>
+                    <th scope="col">Manage</th>
                   </tr>
                 </thead>
                 <tbody>
                   <C:forEach items="${screenings}" var="screening">
                     <tr>
                       <td>
-                        ${screening.movie.title} (${screening.movie.releaseYear})
+                        ${screening.movie.title}
                       </td>
                       <td>
                           ${screening.screeningTime}
@@ -205,10 +233,8 @@
                           ${screening.roomName}
                       </td>
                       <td>
-                          ${screening.roomProperty}
-                      </td>
-                      <td>
-                          ${screening.movie.category}
+                        <a href="./detailScreening?userId=${user.userId}&screeningId=${screening.screeningId}">Details</a>
+                        <a href="./deleteScreening?userId=${user.userId}&screeningId=${screening.screeningId}">Delete</a>
                       </td>
                     </tr>
                   </C:forEach>
@@ -226,7 +252,6 @@
   <!--   Optional JS   -->
   <!--   Argon JS   -->
   <script src="./assets/js/argon-dashboard.min.js?v=1.1.0"></script>
-  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <!-- MDBootstrap Datatables  -->
   <script type="text/javascript" src="./assets/js/addons/datatables.min.js"></script>
   <script>

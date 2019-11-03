@@ -21,7 +21,7 @@ public class UserManager implements UserManagerLocal {
     @Override
     public void createUser(String username, String password, boolean active) {
 
-        if(getUser(username) == null) {
+        if(findUserByName(username) == null) {
             try {
                 Connection connection = dataSource.getConnection();
                 PreparedStatement pstmt = connection.prepareStatement("INSERT INTO user VALUES (?, ?, ?)");
@@ -37,7 +37,7 @@ public class UserManager implements UserManagerLocal {
     }
 
     @Override
-    public User getUser(String username) {
+    public User findUserByName(String username) {
         User user = null;
         try {
             Connection connection = dataSource.getConnection();
@@ -45,11 +45,28 @@ public class UserManager implements UserManagerLocal {
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
 
-            // rs.next() returns false if no user exists
-            if(rs.next() == false) {
-                return user;
+            if(rs.next()) {
+                user = new User(rs.getInt("user_id"), rs.getString("username"), rs.getString("password"), rs.getBoolean("active"));
             }
-            user = new User(rs.getInt("user_id"), rs.getString("username"), rs.getString("password"), rs.getBoolean("active"));
+            connection.close();
+        } catch (SQLException e) {
+            Logger.getLogger(ScreeningManager.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return user;
+    }
+
+    @Override
+    public User getUser(int userId) {
+        User user = null;
+        try {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM user WHERE user_id = ?");
+            pstmt.setInt(1, userId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if(rs.next()) {
+                user = new User(rs.getInt("user_id"), rs.getString("username"), rs.getString("password"), rs.getBoolean("active"));
+            }
             connection.close();
         } catch (SQLException e) {
             Logger.getLogger(ScreeningManager.class.getName()).log(Level.SEVERE, null, e);
@@ -59,7 +76,7 @@ public class UserManager implements UserManagerLocal {
 
     @Override
     public void updateUser(String username, String password, boolean active) {
-        if(getUser(username) != null) {
+        if(findUserByName(username) != null) {
             try {
                 Connection connection = dataSource.getConnection();
                 PreparedStatement pstmt = connection.prepareStatement("UPDATE user SET username = ?, password = ?, active = ?");
@@ -76,7 +93,7 @@ public class UserManager implements UserManagerLocal {
 
     @Override
     public void deleteUser(String username) {
-        if(getUser(username) == null) {
+        if(findUserByName(username) != null) {
             try {
                 Connection connection = dataSource.getConnection();
                 PreparedStatement pstmt = connection.prepareStatement("DELETE FROM user WHERE username = ?");

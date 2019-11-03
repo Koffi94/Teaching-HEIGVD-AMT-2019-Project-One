@@ -9,7 +9,8 @@ public interface UserManagerLocal {
 
     // CRUD
     public void createUser(String username, String password, boolean active);
-    public User getUser(String username);
+    public User findUserByName(String username);
+    public User getUser(int userId);
     public void updateUser(String username, String password, boolean active);
     public void deleteUser(String username);
 }
