@@ -1,5 +1,5 @@
 # MySQL container
 FROM mysql:5.7.15
-LABEL maintainer="Nathanael Mizuani <nathanael.mizutani@heig-vd.ch>, Olivier Koffi <olivier.koffi@heg-vd.ch>"
+LABEL maintainer="Nathanael Mizutani <nathanael.mizutani@heig-vd.ch>, Olivier Koffi <olivier.koffi@heg-vd.ch>"
 
 ADD data/ /docker-entrypoint-initdb.d/
