@@ -1,8 +1,10 @@
 package ch.heigvd.amt.projectone.presentation;
 
+import ch.heigvd.amt.projectone.services.dao.*;
 import com.github.javafaker.Faker;
 
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,9 +13,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.*;
 import java.text.SimpleDateFormat;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.concurrent.ThreadLocalRandom;
 
 /*
  * Fill the database with random data for test purpose
@@ -27,74 +27,78 @@ public class RandomDataServlet extends HttpServlet {
     private static final int ITERATIONS = 10;
 
     private String timestamp = null;
-    private Timestamp sqlTimestamp = null;
-    private int movieInserted = 0;
-    private int userInserted = 0;
-    private Random rand = new Random();
+    private String sqlTimestamp = null;
     private String username = null;
+    private String movieTitle = null;
+    private String cinemaName = null;
+
+    // We use Faker to generate random data
+    // https://github.com/DiUS/java-faker
+    private Faker faker = new Faker();
+
+    @EJB
+    MovieManagerLocal movieManager;
+
+    @EJB
+    CinemaManagerLocal cinemaManager;
+
+    @EJB
+    UserManagerLocal userManager;
+
+    @EJB
+    ScreeningManagerLocal screeningManager;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.printf("fjsiofjidsiofjsdofjosfjisdojsdi");
         generateRandomData();
         response.sendRedirect("./login");
     }
 
-    public void generateRandomData(){
-        try {
-            Connection connection = dataSource.getConnection();
-            PreparedStatement insertMovie = connection.prepareStatement("INSERT INTO movie VALUES (?,?,?);");
-            PreparedStatement insertScreening = connection.prepareStatement("INSERT  INTO  screening VALUES (?, ?, ?, ?, ?)");
-            PreparedStatement insertUser = connection.prepareStatement("INSERT INTO user VALUES (?, ?, ?)");
+    public void generateRandomData() {
 
-            // We use Faker to generate random data
-            Faker faker = new Faker();
+        for (int i = 0; i < ITERATIONS; i++) {
+            timestamp = new SimpleDateFormat("HH.mm.ss").format(new java.util.Date());
+            sqlTimestamp = new SimpleDateFormat("HH:mm").format(new java.util.Date());
 
-            // We disable autocommmit before inserting all the data
-            connection.setAutoCommit(false);
 
-            for(int i = 0; i < ITERATIONS; i++){
-                timestamp = new SimpleDateFormat("HH.mm.ss").format(new java.util.Date());
-                sqlTimestamp = new Timestamp(System.currentTimeMillis());
+            movieTitle = faker.book().title() + i;
 
-                insertMovie.setString(1, faker.book().title() + i);
-                insertMovie.setDate(2, Date.valueOf(faker.business().creditCardExpiry()));
-                insertMovie.setString(3, faker.book().genre());
+            movieManager.createMovie(movieTitle,
+                    randomYear(1900, 2020),
+                    faker.book().genre());
 
-                if(insertMovie.executeUpdate() > 0){
-                    movieInserted++;
-                }
+            username = faker.name().firstName() + timestamp;
 
-                username = faker.name().firstName() + timestamp;
-                insertUser.setString(1, username + i);
-                insertUser.setString(2, "testpw" + i);
-                insertUser.setBoolean(3, true);
+            userManager.createUser(username, "testpw" + i);
 
-                if(insertUser.executeUpdate() > 0){
-                    userInserted++;
-                }
+            cinemaName = faker.lorem().word() + i;
 
-                insertScreening.setTimestamp(1, sqlTimestamp);
-                insertScreening.setString(2, faker.aviation().aircraft());
-                insertScreening.setString(3, faker.stock().nyseSymbol());
-                // To avoid obtaining a user id which value is 0
-                insertScreening.setInt(4, rand.nextInt(movieInserted -1)+1);
-                insertScreening.setString(5, username);
+            cinemaManager.createCinema(cinemaName);
 
-                insertScreening.executeUpdate();
-            }
+            screeningManager.createScreening(sqlTimestamp, faker.aviation().aircraft(), faker.stock().nyseSymbol(),
+                    userManager.findUserByName(username), movieManager.findMovieByTitle(movieTitle),
+                    cinemaManager.findCinemaByName(cinemaName));
 
-            // We enable autocommit once finished
-            connection.setAutoCommit(true);
-
-            connection.close();
-
-        }catch(SQLException e){
-            Logger.getLogger(RandomDataServlet.class.getName()).log(Level.SEVERE, null, e);
         }
+    }
+
+    /**
+     *
+     * @param min Origin year
+     * @param max Bound year
+     * @return random year between min and max
+     */
+    private String randomYear(int min, int max) {
+        long year = ThreadLocalRandom.current().nextInt(min, max);
+
+        Date date = new Date(year);
+
+        String randomYear = new SimpleDateFormat("yyyy").format(date);
+
+        return randomYear;
     }
 }
 
