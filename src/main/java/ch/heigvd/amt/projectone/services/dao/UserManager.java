@@ -19,15 +19,14 @@ public class UserManager implements UserManagerLocal {
     private DataSource dataSource;
 
     @Override
-    public void createUser(String username, String password, boolean active) {
+    public void createUser(String username, String password) {
 
         if(findUserByName(username) == null) {
             try {
                 Connection connection = dataSource.getConnection();
-                PreparedStatement pstmt = connection.prepareStatement("INSERT INTO user VALUES (?, ?, ?)");
+                PreparedStatement pstmt = connection.prepareStatement("INSERT INTO user(username, password) VALUES (?, ?)");
                 pstmt.setString(1, username);
                 pstmt.setString(2, password);
-                pstmt.setBoolean(3, active);
                 pstmt.executeUpdate();
                 connection.close();
             } catch (SQLException e) {
@@ -46,7 +45,7 @@ public class UserManager implements UserManagerLocal {
             ResultSet rs = pstmt.executeQuery();
 
             if(rs.next()) {
-                user = new User(rs.getInt("user_id"), rs.getString("username"), rs.getString("password"), rs.getBoolean("active"));
+                user = new User(rs.getInt("user_id"), rs.getString("username"), rs.getString("password"));
             }
             connection.close();
         } catch (SQLException e) {
@@ -65,7 +64,7 @@ public class UserManager implements UserManagerLocal {
             ResultSet rs = pstmt.executeQuery();
 
             if(rs.next()) {
-                user = new User(rs.getInt("user_id"), rs.getString("username"), rs.getString("password"), rs.getBoolean("active"));
+                user = new User(rs.getInt("user_id"), rs.getString("username"), rs.getString("password"));
             }
             connection.close();
         } catch (SQLException e) {
@@ -75,14 +74,14 @@ public class UserManager implements UserManagerLocal {
     }
 
     @Override
-    public void updateUser(String username, String password, boolean active) {
+    public void updateUser(int userId, String username, String password) {
         if(findUserByName(username) != null) {
             try {
                 Connection connection = dataSource.getConnection();
-                PreparedStatement pstmt = connection.prepareStatement("UPDATE user SET username = ?, password = ?, active = ?");
+                PreparedStatement pstmt = connection.prepareStatement("UPDATE user SET username = ?, password = ? WHERE user_id = ?");
                 pstmt.setString(1, username);
                 pstmt.setString(2, password);
-                pstmt.setBoolean(3, active);
+                pstmt.setInt(3, userId);
                 pstmt.executeUpdate();
                 connection.close();
             } catch (SQLException e) {
@@ -92,12 +91,12 @@ public class UserManager implements UserManagerLocal {
     }
 
     @Override
-    public void deleteUser(String username) {
-        if(findUserByName(username) != null) {
+    public void deleteUser(int userId) {
+        if(getUser(userId) != null) {
             try {
                 Connection connection = dataSource.getConnection();
-                PreparedStatement pstmt = connection.prepareStatement("DELETE FROM user WHERE username = ?");
-                pstmt.setString(1, username);
+                PreparedStatement pstmt = connection.prepareStatement("DELETE FROM user WHERE user_id = ?");
+                pstmt.setInt(1, userId);
                 pstmt.executeUpdate();
                 connection.close();
             } catch (SQLException e) {

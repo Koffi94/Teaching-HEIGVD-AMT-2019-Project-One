@@ -1,5 +1,6 @@
 package ch.heigvd.amt.projectone.services.dao;
 
+import ch.heigvd.amt.projectone.model.Cinema;
 import ch.heigvd.amt.projectone.model.Movie;
 import ch.heigvd.amt.projectone.model.Screening;
 import ch.heigvd.amt.projectone.model.User;
@@ -12,10 +13,10 @@ import java.util.List;
 public interface ScreeningManagerLocal {
 
     // CRUD
-    public void createScreening(Timestamp screeningTime, String roomName, String roomProperty, Movie movie, User owner);
+    public void createScreening(String time, String room, String property, User user, Movie movie, Cinema cinema);
     public Screening getScreening(int screeningId);
-    public List<Screening> findScreeningsByOwner(User owner);
-    public void updateScreening(int screeningId, Timestamp screeningTime, String roomName, String roomProperty, Movie movie, User owner);
+    public List<Screening> findScreeningsByOwner(User user);
+    public void updateScreening(int screeningId, String time, String room, String property, User user, Movie movie, Cinema cinema);
     public void deleteScreening(int screeningId);
 
 }

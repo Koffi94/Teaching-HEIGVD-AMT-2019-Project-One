@@ -1,5 +1,6 @@
 package ch.heigvd.amt.projectone.services.dao;
 
+import ch.heigvd.amt.projectone.model.Cinema;
 import ch.heigvd.amt.projectone.model.Movie;
 import ch.heigvd.amt.projectone.model.Screening;
 import ch.heigvd.amt.projectone.model.User;
@@ -27,33 +28,22 @@ public class ScreeningManager implements ScreeningManagerLocal {
     @EJB
     private MovieManagerLocal movieManager;
 
+    @EJB
+    private CinemaManagerLocal cinemaManager;
+
     @Override
-    public void createScreening(Timestamp screeningTime, String roomName, String roomProperty, Movie movie, User owner) {
+    public void createScreening(String time, String room, String property, User user, Movie movie, Cinema cinema) {
         try {
             Connection connection = dataSource.getConnection();
 
-            // Check if the movie already exists. Create it if needed
-            PreparedStatement pstmt = connection.prepareStatement("SELECT title FROM movie WHERE title = ?");
-            pstmt.setString(1, movie.getTitle());
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next() == false) {
-                pstmt = connection.prepareStatement("INSERT INTO movie VALUES (?, ?, ?)");
-                pstmt.setString(1, movie.getTitle());
-                pstmt.setDate(2, movie.getReleaseYear());
-                pstmt.setString(3, movie.getCategory());
-                pstmt.executeUpdate();
-            }
-
-            do {
-                pstmt = connection.prepareStatement("INSERT INTO screening VALUES (?, ?, ?, ?, ?)");
-                pstmt.setTimestamp(1, screeningTime);
-                pstmt.setString(2, roomName);
-                pstmt.setString(3, roomProperty);
-                pstmt.setInt(4, movie.getMovieId());
-                pstmt.setString(5, owner.getUsername());
-                pstmt.executeUpdate();
-            } while (rs.next());
+            PreparedStatement pstmt = connection.prepareStatement("INSERT INTO screening(time, room, property, user_id, movie_id, cinema_id) VALUES (?, ?, ?, ?, ?, ?)");
+            pstmt.setString(1, time);
+            pstmt.setString(2, room);
+            pstmt.setString(3, property);
+            pstmt.setInt(4, user.getUserId());
+            pstmt.setInt(5, movie.getMovieId());
+            pstmt.setInt(6, cinema.getCinemaId());
+            pstmt.executeUpdate();
 
             connection.close();
         } catch(SQLException e) {
@@ -73,8 +63,9 @@ public class ScreeningManager implements ScreeningManagerLocal {
 
             if(rs.next()) {
                 User user = userManager.getUser(rs.getInt("user_id"));
-                Movie movie = movieManager.findMovieByTitle("movie_id");
-                screening = new Screening(rs.getInt("screening_id"), rs.getTimestamp("screening_time"), rs.getString("room_name"), rs.getString("room_property"), user, movie);
+                Movie movie = movieManager.getMovie(rs.getInt("movie_id"));
+                Cinema cinema = cinemaManager.getCinema(rs.getInt("cinema_id"));
+                screening = new Screening(rs.getInt("screening_id"), rs.getString("time"), rs.getString("room"), rs.getString("property"), user, movie, cinema);
             }
             connection.close();
         } catch(SQLException e) {
@@ -89,25 +80,20 @@ public class ScreeningManager implements ScreeningManagerLocal {
         try {
             Connection connection = dataSource.getConnection();
 
-            PreparedStatement pstmt = connection.prepareStatement(
-                    "SELECT screening.screening_id, screening.screening_time, screening.room_name, screening.room_property, movie.movie_id, movie.title, movie.release_year, movie.category FROM screening " +
-                            "INNER JOIN user ON screening.user_id = user.user_id " +
-                            "INNER JOIN movie ON screening.movie_id = movie.movie_id " +
-                            "WHERE user.user_id = ?");
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM screening WHERE user_id = ?");
             pstmt.setInt(1, user.getUserId());
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                int screeningId = rs.getInt("screening.screening_id");
-                Timestamp screeningTime = rs.getTimestamp("screening.screening_time");
-                String roomName = rs.getString("screening.room_name");
-                String roomProperty = rs.getString("screening.room_property");
-                int movieId = rs.getInt("movie.movie_id");
-                String movieTitle = rs.getString("movie.title");
-                Date movieReleaseYear = rs.getDate("movie.release_year");
-                String movieCategory = rs.getString("movie.category");
-                screenings.add(new Screening(screeningId, screeningTime, roomName, roomProperty, user, new Movie(movieId, movieTitle, movieReleaseYear, movieCategory)));
+                int screeningId = rs.getInt("screening_id");
+                String time = rs.getString("time");
+                String room = rs.getString("room");
+                String property = rs.getString("property");
+                int movieId = rs.getInt("movie_id");
+                Movie movie = movieManager.getMovie(movieId);
+                int cinemaId = rs.getInt("cinemaId");
+                Cinema cinema = cinemaManager.getCinema(cinemaId);
+                screenings.add(new Screening(screeningId, time, room, property, user, movie, cinema));
             }
-            System.out.println("SCREENINGS: " + screenings.get(0).getMovie().getReleaseYear());
             connection.close();
         } catch(SQLException e) {
             Logger.getLogger(ScreeningManager.class.getName()).log(Level.SEVERE, null, e);
@@ -116,24 +102,20 @@ public class ScreeningManager implements ScreeningManagerLocal {
     }
 
     @Override
-    public void updateScreening(int screeningId, Timestamp screeningTime, String roomName, String roomProperty, Movie movie, User owner) {
+    public void updateScreening(int screeningId, String time, String room, String property, User user, Movie movie, Cinema cinema) {
         try {
             Connection connection = dataSource.getConnection();
 
-            // Update screening then movie
-            PreparedStatement pstmt = connection.prepareStatement("UPDATE screening SET screeningTime = ?, roomName = ?, roomProperty = ?, where screening_id = ?");
-            pstmt.setTimestamp(1, screeningTime);
-            pstmt.setString(2, roomName);
-            pstmt.setString(3, roomProperty);
-            pstmt.setInt(4, screeningId);
+            // Update screening
+            PreparedStatement pstmt = connection.prepareStatement("UPDATE screening SET time = ?, room = ?, property = ?, movie_id = ?, cinema_id = ? where screening_id = ?");
+            pstmt.setString(1, time);
+            pstmt.setString(2, room);
+            pstmt.setString(3, property);
+            pstmt.setInt(4, movie.getMovieId());
+            pstmt.setInt(5, cinema.getCinemaId());
+            pstmt.setInt(6, screeningId);
             pstmt.executeUpdate();
 
-            pstmt = connection.prepareStatement("UPDATE movie SET title = ?, releaseDate = ?, category = ?, where movie_id = ?");
-            pstmt.setString(1, movie.getTitle());
-            pstmt.setDate(2, movie.getReleaseYear());
-            pstmt.setString(3, movie.getCategory());
-            pstmt.setInt(4, movie.getMovieId());
-            pstmt.executeUpdate();
             connection.close();
         } catch(SQLException e) {
             Logger.getLogger(ScreeningManager.class.getName()).log(Level.SEVERE, null, e);

@@ -8,9 +8,9 @@ import javax.ejb.Local;
 public interface UserManagerLocal {
 
     // CRUD
-    public void createUser(String username, String password, boolean active);
+    public void createUser(String username, String password);
     public User findUserByName(String username);
     public User getUser(int userId);
-    public void updateUser(String username, String password, boolean active);
-    public void deleteUser(String username);
+    public void updateUser(int userId, String username, String password);
+    public void deleteUser(int userId);
 }

@@ -11,18 +11,20 @@ import lombok.Getter;
 public class Screening {
 
     private int screeningId;
-    private Timestamp screeningTime;
-    private String roomName;
-    private String roomProperty;
-    private User owner;
+    private String time;
+    private String room;
+    private String property;
+    private User user;
     private Movie movie;
+    private  Cinema cinema;
 
-    public Screening(int screeningId, Timestamp screeningTime, String roomName, String roomProperty, User owner, Movie movie) {
+    public Screening(int screeningId, String time, String room, String property, User user, Movie movie, Cinema cinema) {
         this.screeningId = screeningId;
-        this.screeningTime = screeningTime;
-        this.roomName = roomName;
-        this.roomProperty = roomProperty;
-        this.owner = owner;
+        this.time = time;
+        this.room = room;
+        this.property = property;
+        this.user = user;
         this.movie = movie;
+        this.cinema = cinema;
     }
 }

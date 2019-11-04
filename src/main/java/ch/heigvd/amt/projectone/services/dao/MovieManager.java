@@ -69,7 +69,7 @@ public class MovieManager implements MovieManagerLocal {
         try {
             Connection connection = dataSource.getConnection();
 
-            PreparedStatement pstmt = connection.prepareStatement("SELECT title FROM movie WHERE title = ?");
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM movie WHERE movie_id = ?");
             pstmt.setInt(1, movieId);
             ResultSet rs = pstmt.executeQuery();
 
