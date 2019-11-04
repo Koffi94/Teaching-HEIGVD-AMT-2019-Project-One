@@ -20,7 +20,7 @@ public class MovieManager implements MovieManagerLocal {
     private DataSource dataSource;
 
     @Override
-    public void createMovie(int movieId, String title, Date releaseYear, String category) {
+    public void createMovie(String title, Date releaseYear, String category) {
         if (findMovieByTitle(title) == null) {
             try {
                 Connection connection = dataSource.getConnection();
@@ -104,12 +104,12 @@ public class MovieManager implements MovieManagerLocal {
     }
 
     @Override
-    public void deleteMovie(String title) {
-        if(findMovieByTitle(title) != null) {
+    public void deleteMovie(int movieId) {
+        if(getMovie(movieId) != null) {
             try {
                 Connection connection = dataSource.getConnection();
-                PreparedStatement pstmt = connection.prepareStatement("DELETE FROM movie WHERE title = ?");
-                pstmt.setString(1, title);
+                PreparedStatement pstmt = connection.prepareStatement("DELETE FROM movie WHERE movie_id = ?");
+                pstmt.setInt(1, movieId);
                 pstmt.executeUpdate();
                 connection.close();
             } catch(SQLException e) {

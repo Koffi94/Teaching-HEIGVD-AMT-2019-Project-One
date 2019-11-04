@@ -38,6 +38,42 @@
 </head>
 
 <body class="">
+<!-- Modal -->
+<div class="modal fade" id="newScreeningModal" tabindex="-1" role="dialog" aria-labelledby="newScreeningModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New Screening</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="./CreateScreening">
+          <div class="form-group">
+            <label class="form-control-label">Movie</label>
+            <input type="text" class="form-control" id="movie_name">
+          </div>
+          <div class="form-group">
+            <label class="form-control-label">Screening Time</label>
+            <textarea class="form-control" id="screening_time"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-control-label">Room Name</label>
+            <textarea class="form-control" id="room_name"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-control-label">Room Property</label>
+            <textarea class="form-control" id="room_property"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" data-dismiss="modal">Create</button>
+      </div>
+    </div>
+  </div>
+</div>
   <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
     <div class="container-fluid">
       <!-- Toggler -->
@@ -117,54 +153,6 @@
           New Screening
         </button>
 
-        <!-- Modal -->
-        <div class="modal fade" id="newScreeningModal" tabindex="-1" role="dialog" aria-labelledby="newScreeningModal" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New Screening</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form method="post" action="./CreateScreening">
-                  <div class="form-group">
-                    <label class="form-control-label">Movie</label>
-                    <input type="text" class="form-control" id="movie_name">
-                  </div>
-                  <div class="form-group">
-                    <label class="form-control-label">Screening Time</label>
-                    <textarea class="form-control" id="screening_time"></textarea>
-                  </div>
-                  <div class="form-group">
-                    <label class="form-control-label">Room Name</label>
-                    <textarea class="form-control" id="room_name"></textarea>
-                  </div>
-                  <div class="form-group">
-                    <label class="form-control-label">Room Property</label>
-                    <textarea class="form-control" id="room_property"></textarea>
-                  </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-dismiss="modal">Create</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Form -->
-        <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
-          <div class="form-group mb-0">
-            <div class="input-group input-group-alternative">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-search"></i></span>
-              </div>
-              <input class="form-control" placeholder="Search" type="text">
-            </div>
-          </div>
-        </form>
         <!-- User -->
         <ul class="navbar-nav align-items-center d-none d-md-flex">
           <li class="nav-item dropdown">
@@ -233,8 +221,8 @@
                           ${screening.roomName}
                       </td>
                       <td>
-                        <a href="./detailScreening?userId=${user.userId}&screeningId=${screening.screeningId}">Details</a>
-                        <a href="./deleteScreening?userId=${user.userId}&screeningId=${screening.screeningId}">Delete</a>
+                        <a href="./manageScreening?operation=detail&screeningId=${screening.screeningId}">Details</a>
+                        <a href="./manageScreening?operation=delete&screeningId=${screening.screeningId}">Delete</a>
                       </td>
                     </tr>
                   </C:forEach>
