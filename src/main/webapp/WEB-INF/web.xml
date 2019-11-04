@@ -20,6 +20,10 @@
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>ch.heigvd.amt.projectone.presentation.RegisterServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RandomDataServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.projectone.presentation.RandomDataServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
     <servlet-name>LoginServlet</servlet-name>
     <url-pattern>/login</url-pattern>
@@ -35,5 +39,9 @@
     <servlet-mapping>
         <servlet-name>ManageMovieServlet</servlet-name>
         <url-pattern>/manageMovie</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RandomDataServlet</servlet-name>
+        <url-pattern>/generateRandomData</url-pattern>
     </servlet-mapping>
 </web-app>
