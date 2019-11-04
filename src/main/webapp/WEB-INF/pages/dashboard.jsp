@@ -215,10 +215,10 @@
                         ${screening.movie.title}
                       </td>
                       <td>
-                          ${screening.screeningTime}
+                          ${screening.time}
                       </td>
                       <td>
-                          ${screening.roomName}
+                          ${screening.room}
                       </td>
                       <td>
                         <a href="./manageScreening?operation=detail&screeningId=${screening.screeningId}">Details</a>

@@ -10,8 +10,8 @@ USE myDB;
 
 SET AUTOCOMMIT=0;
 INSERT INTO user VALUES
-(1,'Koffi','adminpw','1'),
-(2,'Nath','adminpw','1');
+(1,'Koffi','adminpw'),
+(2,'Nath','adminpw');
 COMMIT;
 
 SET AUTOCOMMIT=0;
@@ -21,9 +21,15 @@ INSERT INTO movie VALUES
 COMMIT;
 
 SET AUTOCOMMIT=0;
+INSERT INTO cinema VALUES
+(1,'Pathe Flon'),
+(2,'CineToile');
+COMMIT;
+
+SET AUTOCOMMIT=0;
 INSERT INTO screening VALUES
-(1,'1970-01-01 14:00:01','R08','3D', 1, 1),
-(2,'1970-01-01 17:30:02','R07','2D', 2, 2);
+(1,'14:00','R08','3D', 1, 1, 1),
+(2,'17:30','R07','2D', 2, 2, 2);
 COMMIT;
 
 SET SQL_MODE=@OLD_SQL_MODE;

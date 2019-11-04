@@ -90,7 +90,7 @@ public class ScreeningManager implements ScreeningManagerLocal {
                 String property = rs.getString("property");
                 int movieId = rs.getInt("movie_id");
                 Movie movie = movieManager.getMovie(movieId);
-                int cinemaId = rs.getInt("cinemaId");
+                int cinemaId = rs.getInt("cinema_id");
                 Cinema cinema = cinemaManager.getCinema(cinemaId);
                 screenings.add(new Screening(screeningId, time, room, property, user, movie, cinema));
             }

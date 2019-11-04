@@ -87,7 +87,7 @@ public class MovieManager implements MovieManagerLocal {
 
     @Override
     public void updateMovie(int movieId, String title, Date releaseYear, String category) {
-        if(findMovieByTitle(title) != null) {
+        if(getMovie(movieId) != null) {
             try {
                 Connection connection = dataSource.getConnection();
                 PreparedStatement pstmt = connection.prepareStatement("UPDATE movie SET title = ?, release_year = ?, category = ?, where movie_id = ?");

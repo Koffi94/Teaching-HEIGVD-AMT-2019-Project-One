@@ -106,7 +106,7 @@
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label">Room</label>
-                        <input type="text" id="room-name" class="form-control form-control-alternative" placeholder=${screening.roomName}>
+                        <input type="text" id="room-name" class="form-control form-control-alternative" placeholder=${screening.room}>
                       </div>
                     </div>
                   </div>
@@ -114,13 +114,13 @@
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label">Time</label>
-                        <input type="text" id="screening-time" class="form-control form-control-alternative" placeholder=${screening.screeningTime}>
+                        <input type="text" id="screening-time" class="form-control form-control-alternative" placeholder=${screening.time}>
                       </div>
                     </div>
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label" >Version</label>
-                        <input type="text" id="screening-version" class="form-control form-control-alternative" placeholder=${screening.roomProperty}>
+                        <input type="text" id="screening-version" class="form-control form-control-alternative" placeholder=${screening.property}>
                       </div>
                     </div>
                     <input type="submit" value="Edit" class="btn btn-primary"/>
