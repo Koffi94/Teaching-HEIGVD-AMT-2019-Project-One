@@ -1,6 +1,7 @@
 package ch.heigvd.amt.projectone.services.dao;
 
 import ch.heigvd.amt.projectone.model.User;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
@@ -26,7 +27,7 @@ public class UserManager implements UserManagerLocal {
                 Connection connection = dataSource.getConnection();
                 PreparedStatement pstmt = connection.prepareStatement("INSERT INTO user(username, password) VALUES (?, ?)");
                 pstmt.setString(1, username);
-                pstmt.setString(2, password);
+                pstmt.setString(2, BCrypt.hashpw(password, BCrypt.gensalt()));
                 pstmt.executeUpdate();
                 connection.close();
             } catch (SQLException e) {
@@ -103,5 +104,15 @@ public class UserManager implements UserManagerLocal {
                 Logger.getLogger(ScreeningManager.class.getName()).log(Level.SEVERE, null, e);
             }
         }
+    }
+
+    @Override
+    public boolean checkUser(String username, String password) {
+        boolean userExists = false;
+        User user = findUserByName(username);
+        if (user != null && user.getPassword().equals(password)) {
+            userExists = true;
+        }
+        return userExists;
     }
 }

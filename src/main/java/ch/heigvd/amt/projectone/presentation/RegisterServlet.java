@@ -25,7 +25,7 @@ public class RegisterServlet extends HttpServlet {
         String repassword = request.getParameter("repassword");
 
         if(checkAccount(username, password, repassword)) {
-            userManager.createUser(username, BCrypt.hashpw(password, BCrypt.gensalt()));
+            userManager.createUser(username, password);
         }
 
         response.sendRedirect("./login");

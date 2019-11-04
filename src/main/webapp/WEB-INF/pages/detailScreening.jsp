@@ -68,7 +68,7 @@
         <!-- Navigation -->
         <ul class="navbar-nav">
           <li class="nav-item"  class="active">
-          <a class=" nav-link " href=" ./login"> <i class="ni ni-tv-2 text-primary"></i> Dashboard
+          <a class=" nav-link " href="./login"> <i class="ni ni-tv-2 text-primary"></i> Dashboard
             </a>
           </li>
         </ul>

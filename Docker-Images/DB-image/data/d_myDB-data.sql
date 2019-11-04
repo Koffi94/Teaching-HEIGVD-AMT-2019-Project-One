@@ -10,8 +10,8 @@ USE myDB;
 
 SET AUTOCOMMIT=0;
 INSERT INTO user VALUES
-(1,'Koffi','adminpw'),
-(2,'Nath','adminpw');
+(1,'Koffi','$2a$10$PrMAlhuNgb.R/Yx9KIzc1eGUX6d2H.1AsSguP1qUHXnybYXBMCYGG'),
+(2,'Nath','$2a$10$PrMAlhuNgb.R/Yx9KIzc1eGUX6d2H.1AsSguP1qUHXnybYXBMCYGG');
 COMMIT;
 
 SET AUTOCOMMIT=0;

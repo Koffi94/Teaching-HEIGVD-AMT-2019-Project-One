@@ -13,4 +13,5 @@ public interface UserManagerLocal {
     public User getUser(int userId);
     public void updateUser(int userId, String username, String password);
     public void deleteUser(int userId);
+    public boolean checkUser(String username, String password);
 }

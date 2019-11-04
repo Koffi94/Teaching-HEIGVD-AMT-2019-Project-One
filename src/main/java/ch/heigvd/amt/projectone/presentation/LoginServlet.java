@@ -26,27 +26,37 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response)
             throws javax.servlet.ServletException, IOException{
-        request.getRequestDispatcher("./login.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+
+        if(session.getAttribute("session").equals("ok")) {
+            User user = userManager.findUserByName((String) session.getAttribute("username"));
+            request.setAttribute("user", user);
+            request.setAttribute("screenings", screeningManager.findScreeningsByOwner(user));
+            request.getRequestDispatcher("./WEB-INF/pages/dashboard.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("./login.jsp").forward(request, response);
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         User user = userManager.findUserByName(request.getParameter("username"));
-        if (user != null && BCrypt.checkpw(user.getPassword(), request.getParameter("password"))) {
-            //get the old session and invalidate
+        if (user != null && BCrypt.checkpw(request.getParameter("password"), user.getPassword())) {
+            // Get the old session and invalidate
             HttpSession oldSession = request.getSession(false);
             if (oldSession != null) {
                 oldSession.invalidate();
             }
-            //generate a new session
+            // Generate a new session
             HttpSession newSession = request.getSession(true);
 
-            //setting session to expiry in 5 mins
-            newSession.setMaxInactiveInterval(5*60);
+            // Setting session to expiry in 5 mins
+            newSession.setMaxInactiveInterval(60*5);
 
-            Cookie message = new Cookie("token", "Welcome");
-            response.addCookie(message);
+            // Set session attributes
+            newSession.setAttribute("username", user.getUsername());
+            newSession.setAttribute("password", user.getPassword());
 
             request.setAttribute("user", user);
             request.setAttribute("screenings", screeningManager.findScreeningsByOwner(user));
