@@ -10,7 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -86,11 +89,12 @@ public class RandomDataServlet extends HttpServlet {
 
     public void generateRandomData() {
 
-        for(int j = 0; j < CREATE; j++){
+        /*for(int j = 0; j < CREATE; j++){
             users.add(faker.name().firstName() + j);
             movies.add(faker.book().title() + j);
             cinemas.add(faker.lorem().word() + j);
-        }
+        }*/
+        populateTables(CREATE);
 
         System.out.println("MOVIES:\n" + movies);
 
@@ -110,6 +114,19 @@ public class RandomDataServlet extends HttpServlet {
                     movieManager.findMovieByTitle(movies.get(i % movies.size())),
                     cinemaManager.findCinemaByName(cinemas.get(i % cinemas.size())));
 
+        }
+    }
+
+    public void writeRandomDataToFile(){
+        populateTables(CREATE);
+        
+    }
+
+    private void populateTables(int tableSize){
+        for(int j = 0; j < tableSize; j++){
+            users.add(faker.name().firstName() + j);
+            movies.add(faker.book().title() + j);
+            cinemas.add(faker.lorem().word() + j);
         }
     }
 }
