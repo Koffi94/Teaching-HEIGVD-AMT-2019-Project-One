@@ -14,7 +14,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=adminpw
     ports:
-      - "3306:3306" #"7070:8080"
+      - "3306:3306"
 
   phpmyadmin:
     build: Docker-Images/PHPmyAdmin-image
