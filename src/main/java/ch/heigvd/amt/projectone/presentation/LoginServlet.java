@@ -3,6 +3,7 @@ package ch.heigvd.amt.projectone.presentation;
 import ch.heigvd.amt.projectone.model.User;
 import ch.heigvd.amt.projectone.services.dao.ScreeningManagerLocal;
 import ch.heigvd.amt.projectone.services.dao.UserManagerLocal;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -32,7 +33,7 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         User user = userManager.findUserByName(request.getParameter("username"));
-        if (user != null && user.getPassword().equals(request.getParameter("password"))) {
+        if (user != null && BCrypt.checkpw(user.getPassword(), request.getParameter("password"))) {
             //get the old session and invalidate
             HttpSession oldSession = request.getSession(false);
             if (oldSession != null) {
@@ -44,7 +45,7 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
             //setting session to expiry in 5 mins
             newSession.setMaxInactiveInterval(5*60);
 
-            Cookie message = new Cookie("message", "Welcome");
+            Cookie message = new Cookie("token", "Welcome");
             response.addCookie(message);
 
             request.setAttribute("user", user);

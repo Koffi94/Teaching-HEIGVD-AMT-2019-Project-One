@@ -54,7 +54,7 @@ public class ManageScreeningServlet extends HttpServlet {
                 default:
                     break;
             }
-            request.getRequestDispatcher("./WEB-INF/pages/dashboard.jsp").forward(request, response);
+            response.sendRedirect("./login");
         } catch(Exception e) {
 
         }
@@ -73,7 +73,7 @@ public class ManageScreeningServlet extends HttpServlet {
                 break;
             case "delete" :
                 screeningManager.deleteScreening(screeningId);
-                request.getRequestDispatcher("./WEB-INF/pages/dashboard.jsp").forward(request, response);
+                response.sendRedirect("./login");
                 break;
             default:
                 break;

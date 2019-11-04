@@ -97,22 +97,8 @@
                   <div class="row">
                     <div class="col-lg-6">
                       <div class="form-group">
-                        <label class="form-control-label">Title</label>
-                        <input type="text" id="movie-title" class="form-control form-control-alternative" placeholder="${movie.title}">
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label">Release Year</label>
-                        <input type="text" id="release-year" class="form-control form-control-alternative" placeholder=${movie.releaseYear.toString().substring(0,4)}>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label">Category</label>
-                        <input type="text" id="category" class="form-control form-control-alternative" placeholder=${movie.category}>
+                        <label class="form-control-label">Cinema</label>
+                        <input type="text" id="movie-title" class="form-control form-control-alternative" placeholder="${cinema.name}">
                       </div>
                     </div>
                     <div class="col-lg-6">

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class RegisterServlet extends HttpServlet {
 
@@ -24,7 +25,7 @@ public class RegisterServlet extends HttpServlet {
         String repassword = request.getParameter("repassword");
 
         if(checkAccount(username, password, repassword)) {
-            userManager.createUser(username, password);
+            userManager.createUser(username, BCrypt.hashpw(password, BCrypt.gensalt()));
         }
 
         response.sendRedirect("./login");

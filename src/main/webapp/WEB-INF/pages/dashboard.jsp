@@ -203,8 +203,8 @@
                 <thead class="thead-dark">
                   <tr>
                     <th scope="col">Movie</th>
-                    <th scope="col">Session</th>
-                    <th scope="col">Room</th>
+                    <th scope="col">Cinema</th>
+                    <th scope="col">Time</th>
                     <th scope="col">Manage</th>
                   </tr>
                 </thead>
@@ -212,13 +212,13 @@
                   <C:forEach items="${screenings}" var="screening">
                     <tr>
                       <td>
-                        ${screening.movie.title}
+                        <a href="./manageMovie?operation=detail&movieId=${screening.movie.movieId}">${screening.movie.title}</a>
+                      </td>
+                      <td>
+                        <a href="./manageCinema?operation=detail&cinemaId=${screening.cinema.cinemaId}">${screening.cinema.name}</a>
                       </td>
                       <td>
                           ${screening.time}
-                      </td>
-                      <td>
-                          ${screening.room}
                       </td>
                       <td>
                         <a href="./manageScreening?operation=detail&screeningId=${screening.screeningId}">Details</a>

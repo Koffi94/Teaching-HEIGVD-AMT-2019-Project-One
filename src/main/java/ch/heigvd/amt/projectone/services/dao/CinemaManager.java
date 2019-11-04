@@ -25,7 +25,7 @@ public class CinemaManager implements CinemaManagerLocal {
             try {
                 Connection connection = dataSource.getConnection();
 
-                PreparedStatement pstmt = connection.prepareStatement("INSERT INTO cinema VALUES (?)");
+                PreparedStatement pstmt = connection.prepareStatement("INSERT INTO cinema(name) VALUES (?)");
                 pstmt.setString(1, name);
                 pstmt.executeUpdate();
 

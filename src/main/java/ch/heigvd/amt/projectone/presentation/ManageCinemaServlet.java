@@ -1,8 +1,7 @@
 package ch.heigvd.amt.projectone.presentation;
 
-import ch.heigvd.amt.projectone.model.Movie;
-import ch.heigvd.amt.projectone.model.Screening;
-import ch.heigvd.amt.projectone.model.User;
+import ch.heigvd.amt.projectone.model.Cinema;
+import ch.heigvd.amt.projectone.services.dao.CinemaManagerLocal;
 import ch.heigvd.amt.projectone.services.dao.MovieManagerLocal;
 
 import javax.ejb.EJB;
@@ -11,28 +10,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.sql.Date;
 
-public class ManageMovieServlet extends HttpServlet {
+public class ManageCinemaServlet extends HttpServlet {
+
     @EJB
-    MovieManagerLocal movieManager;
-
+    CinemaManagerLocal cinemaManager;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String operation = request.getParameter("operation");
-            int movieId = Integer.parseInt(request.getParameter("movie_id"));
-            String title = request.getParameter("title");
-            String releaseYear = request.getParameter("release_year");
-            String category = request.getParameter("category");
+            int cinemaId = Integer.parseInt(request.getParameter("cinema_id"));
+            String name = request.getParameter("name");
 
             switch (operation) {
                 case "create" :
-                    movieManager.createMovie(title, releaseYear, category);
+                    cinemaManager.createCinema(name);
                     break;
                 case "update" :
-                    movieManager.updateMovie(movieId, title, releaseYear, category);
+                    cinemaManager.updateCinema(cinemaId, name);
                     break;
                 default:
                     break;
@@ -41,20 +36,21 @@ public class ManageMovieServlet extends HttpServlet {
         } catch(Exception e) {
 
         }
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int movieId = Integer.parseInt(request.getParameter("movieId"));
+        int cinemaId = Integer.parseInt(request.getParameter("cinemaId"));
         String operation = request.getParameter("operation");
 
         switch (operation) {
             case "detail" :
-                Movie movie = movieManager.getMovie(movieId);
-                request.setAttribute("movie", movie);
-                request.getRequestDispatcher("./WEB-INF/pages/detailMovie.jsp").forward(request, response);
+                Cinema cinema = cinemaManager.getCinema(cinemaId);
+                request.setAttribute("cinema", cinema);
+                request.getRequestDispatcher("./WEB-INF/pages/detailCinema.jsp").forward(request, response);
                 break;
             case "delete" :
-                movieManager.deleteMovie(movieId);
+                cinemaManager.deleteCinema(cinemaId);
                 response.sendRedirect("./login");
                 break;
             default:

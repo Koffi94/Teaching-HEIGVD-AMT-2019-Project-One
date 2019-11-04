@@ -20,15 +20,15 @@ public class MovieManager implements MovieManagerLocal {
     private DataSource dataSource;
 
     @Override
-    public void createMovie(String title, Date releaseYear, String category) {
+    public void createMovie(String title, String releaseYear, String category) {
         if (findMovieByTitle(title) == null) {
             try {
                 Connection connection = dataSource.getConnection();
 
                 // Check if the movie doesn't exist yet
-                PreparedStatement pstmt = connection.prepareStatement("INSERT INTO movie VALUES (?, ?, ?)");
+                PreparedStatement pstmt = connection.prepareStatement("INSERT INTO movie(title, release_year, category) VALUES (?, ?, ?)");
                 pstmt.setString(1, title);
-                pstmt.setDate(2, releaseYear);
+                pstmt.setString(2, releaseYear);
                 pstmt.setString(3, category);
                 pstmt.executeUpdate();
 
@@ -46,12 +46,12 @@ public class MovieManager implements MovieManagerLocal {
         try {
             Connection connection = dataSource.getConnection();
 
-            PreparedStatement pstmt = connection.prepareStatement("SELECT title FROM movie WHERE title = ?");
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM movie WHERE title = ?");
             pstmt.setString(1, title);
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                movie = new Movie(rs.getInt("movie_id"), rs.getString("title"), rs.getDate("release_year"), rs.getString("category"));
+                movie = new Movie(rs.getInt("movie_id"), rs.getString("title"), rs.getString("release_year"), rs.getString("category"));
             }
 
             connection.close();
@@ -74,7 +74,7 @@ public class MovieManager implements MovieManagerLocal {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                movie = new Movie(rs.getInt("movie_id"), rs.getString("title"), rs.getDate("release_year"), rs.getString("category"));
+                movie = new Movie(rs.getInt("movie_id"), rs.getString("title"), rs.getString("release_year"), rs.getString("category"));
             }
 
             connection.close();
@@ -86,13 +86,13 @@ public class MovieManager implements MovieManagerLocal {
     }
 
     @Override
-    public void updateMovie(int movieId, String title, Date releaseYear, String category) {
+    public void updateMovie(int movieId, String title, String releaseYear, String category) {
         if(getMovie(movieId) != null) {
             try {
                 Connection connection = dataSource.getConnection();
                 PreparedStatement pstmt = connection.prepareStatement("UPDATE movie SET title = ?, release_year = ?, category = ?, where movie_id = ?");
                 pstmt.setString(1, title);
-                pstmt.setDate(2, releaseYear);
+                pstmt.setString(2, releaseYear);
                 pstmt.setString(3, category);
                 pstmt.setInt(4, movieId);
                 pstmt.executeUpdate();

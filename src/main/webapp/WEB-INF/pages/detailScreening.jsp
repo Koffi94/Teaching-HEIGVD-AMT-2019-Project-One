@@ -92,7 +92,7 @@
               </div>
             </div>
             <div class="card-body">
-              <form>
+              <form method="post">
                 <h6 class="heading-small text-muted mb-4">Screening Detail</h6>
                 <div class="pl-lg-4">
                   <div class="row">
@@ -105,8 +105,9 @@
                     </div>
                     <div class="col-lg-6">
                       <div class="form-group">
-                        <label class="form-control-label">Room</label>
-                        <input type="text" id="room-name" class="form-control form-control-alternative" placeholder=${screening.room}>
+                        <label class="form-control-label">Cinema</label>
+                        <a href="./manageCinema?operation=detail&cinemaId=${screening.cinema.cinemaId}">Details</a>
+                        <input type="text" id="cinema" class="form-control form-control-alternative" placeholder="${screening.cinema.name}">
                       </div>
                     </div>
                   </div>
@@ -114,7 +115,13 @@
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label">Time</label>
-                        <input type="text" id="screening-time" class="form-control form-control-alternative" placeholder=${screening.time}>
+                        <input type="text" id="time" class="form-control form-control-alternative" placeholder=${screening.time}>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label">Room</label>
+                        <input type="text" id="room" class="form-control form-control-alternative" placeholder=${screening.room}>
                       </div>
                     </div>
                     <div class="col-lg-6">
@@ -123,7 +130,12 @@
                         <input type="text" id="screening-version" class="form-control form-control-alternative" placeholder=${screening.property}>
                       </div>
                     </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                      </div>
+                    </div>
                     <input type="submit" value="Edit" class="btn btn-primary"/>
+                    <a href="./manageScreening?operation=delete&screeningId=${screening.screeningId}" class="btn btn-secondary">Delete</a>
                   </div>
                 </div>
               </form>
