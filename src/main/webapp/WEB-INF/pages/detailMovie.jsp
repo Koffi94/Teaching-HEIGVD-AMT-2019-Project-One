@@ -65,7 +65,7 @@
         </div>
         <!-- Navigation -->
         <ul class="navbar-nav">
-          <li class="nav-item  class=" active" ">
+          <li class="nav-item"  class="active">
           <a class=" nav-link " href=" ./dashboard.jsp"> <i class="ni ni-tv-2 text-primary"></i> Dashboard
             </a>
           </li>
