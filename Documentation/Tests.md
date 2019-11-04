@@ -3,3 +3,6 @@
 ## Details on automated tests
 
 ## Performances tests
+
+### JMeter
+
