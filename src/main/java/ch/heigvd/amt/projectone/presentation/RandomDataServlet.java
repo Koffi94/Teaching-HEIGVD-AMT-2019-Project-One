@@ -13,6 +13,9 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 /*
@@ -23,14 +26,38 @@ public class RandomDataServlet extends HttpServlet {
     @Resource(lookup = "jdbc/myDB")
     private DataSource dataSource;
 
-    // NUmber of data to generate
-    private static final int ITERATIONS = 10;
+    // Number of data to generate
+    private static final int ITERATIONS = 1000;
+    // Parameters for generating a random year
+    private static final int SEED = 12345;
+    private static final int ORIGIN_YEAR = 1900;
+    private static final int SPAN = 1021;
+    //Parameters for generating a random hour
+    private static final int HOURS = 25;
+    private static final int MINUTES = 61;
+    // Room properties
+    private static final String[] roomProperties = {"2D", "3D", "4D"};
+    // Room letter
+    private static final String[] roomLetter = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"};
+    // Room number limit
+    private static final int ROOM_LIMIT = 31;
+    // user password base
+    private static final String PASSWD = "testpw";
+    // Number of movie, user, cinema
+    private static final int CREATE = 100;
 
-    private String timestamp = null;
-    private String sqlTimestamp = null;
-    private String username = null;
-    private String movieTitle = null;
-    private String cinemaName = null;
+    private String screeningTime = null;
+    private String year = null;
+    private String room = null;
+
+    // Table of users
+    private ArrayList<String> users = new ArrayList<>();
+    // Table of movies
+    private ArrayList<String> movies = new ArrayList<>();
+    // Table of cinemas
+    private ArrayList<String> cinemas = new ArrayList<>();
+
+    private Random rand = new Random(SEED);
 
     // We use Faker to generate random data
     // https://github.com/DiUS/java-faker
@@ -59,46 +86,31 @@ public class RandomDataServlet extends HttpServlet {
 
     public void generateRandomData() {
 
+        for(int j = 0; j < CREATE; j++){
+            users.add(faker.name().firstName() + j);
+            movies.add(faker.book().title() + j);
+            cinemas.add(faker.lorem().word() + j);
+        }
+
+        System.out.println("MOVIES:\n" + movies);
+
         for (int i = 0; i < ITERATIONS; i++) {
-            timestamp = new SimpleDateFormat("HH.mm.ss").format(new java.util.Date());
-            sqlTimestamp = new SimpleDateFormat("HH:mm").format(new java.util.Date());
+            screeningTime = String.valueOf(rand.nextInt(HOURS)) + ":" + String.valueOf(rand.nextInt(MINUTES));
+            year = String.valueOf(ORIGIN_YEAR + rand.nextInt(SPAN));
+            room = roomLetter[i % roomLetter.length] + rand.nextInt(ROOM_LIMIT);
 
+            movieManager.createMovie(movies.get(i % movies.size()), year, faker.book().genre());
 
-            movieTitle = faker.book().title() + i;
+            userManager.createUser(users.get(i % users.size()), PASSWD + i);
 
-            movieManager.createMovie(movieTitle,
-                    randomYear(1900, 2020),
-                    faker.book().genre());
+            cinemaManager.createCinema(cinemas.get(i % cinemas.size()));
 
-            username = faker.name().firstName() + timestamp;
-
-            userManager.createUser(username, "testpw" + i);
-
-            cinemaName = faker.lorem().word() + i;
-
-            cinemaManager.createCinema(cinemaName);
-
-            screeningManager.createScreening(sqlTimestamp, faker.aviation().aircraft(), faker.stock().nyseSymbol(),
-                    userManager.findUserByName(username), movieManager.findMovieByTitle(movieTitle),
-                    cinemaManager.findCinemaByName(cinemaName));
+            screeningManager.createScreening(screeningTime, room, roomProperties[i % roomProperties.length],
+                    userManager.findUserByName(users.get(i % users.size())),
+                    movieManager.findMovieByTitle(movies.get(i % movies.size())),
+                    cinemaManager.findCinemaByName(cinemas.get(i % cinemas.size())));
 
         }
-    }
-
-    /**
-     *
-     * @param min Origin year
-     * @param max Bound year
-     * @return random year between min and max
-     */
-    private String randomYear(int min, int max) {
-        long year = ThreadLocalRandom.current().nextInt(min, max);
-
-        Date date = new Date(year);
-
-        String randomYear = new SimpleDateFormat("yyyy").format(date);
-
-        return randomYear;
     }
 }
 
