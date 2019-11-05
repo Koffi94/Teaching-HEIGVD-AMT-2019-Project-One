@@ -119,7 +119,7 @@ public class RandomDataServlet extends HttpServlet {
 
     public void writeRandomDataToFile(){
         populateTables(CREATE);
-        
+
     }
 
     private void populateTables(int tableSize){
