@@ -90,7 +90,7 @@ public class MovieManager implements MovieManagerLocal {
         if(getMovie(movieId) != null) {
             try {
                 Connection connection = dataSource.getConnection();
-                PreparedStatement pstmt = connection.prepareStatement("UPDATE movie SET title = ?, release_year = ?, category = ?, where movie_id = ?");
+                PreparedStatement pstmt = connection.prepareStatement("UPDATE movie SET title = ?, release_year = ?, category = ? WHERE movie_id = ?");
                 pstmt.setString(1, title);
                 pstmt.setString(2, releaseYear);
                 pstmt.setString(3, category);

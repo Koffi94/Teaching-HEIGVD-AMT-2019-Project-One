@@ -99,15 +99,15 @@
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label">Movie</label>
-                        <a href="./manageMovie?operation=detail&movieId=${screening.movie.movieId}">Details</a>
-                        <input type="text" id="movie-title" class="form-control form-control-alternative" placeholder="${screening.movie.title}">
+                        <a href="./manageMovie?operation_get=detail&movie_id=${screening.movie.movieId}">Details</a>
+                        <input type="text" id="movie-title" class="form-control form-control-alternative" value="${screening.movie.title}">
                       </div>
                     </div>
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label">Cinema</label>
-                        <a href="./manageCinema?operation=detail&cinemaId=${screening.cinema.cinemaId}">Details</a>
-                        <input type="text" id="cinema" class="form-control form-control-alternative" placeholder="${screening.cinema.name}">
+                        <a href="./manageCinema?operation_get=detail&cinema_id=${screening.cinema.cinemaId}">Details</a>
+                        <input type="text" id="cinema" class="form-control form-control-alternative" value="${screening.cinema.name}">
                       </div>
                     </div>
                   </div>
@@ -115,19 +115,19 @@
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label">Time</label>
-                        <input type="text" id="time" class="form-control form-control-alternative" placeholder=${screening.time}>
+                        <input type="text" id="time" class="form-control form-control-alternative" value=${screening.time}>
                       </div>
                     </div>
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label">Room</label>
-                        <input type="text" id="room" class="form-control form-control-alternative" placeholder=${screening.room}>
+                        <input type="text" id="room" class="form-control form-control-alternative" value=${screening.room}>
                       </div>
                     </div>
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label" >Version</label>
-                        <input type="text" id="screening-version" class="form-control form-control-alternative" placeholder=${screening.property}>
+                        <input type="text" id="screening-version" class="form-control form-control-alternative" value=${screening.property}>
                       </div>
                     </div>
                     <div class="col-lg-6">
@@ -135,7 +135,7 @@
                       </div>
                     </div>
                     <input type="submit" value="Edit" class="btn btn-primary"/>
-                    <a href="./manageScreening?operation=delete&screeningId=${screening.screeningId}" class="btn btn-secondary">Delete</a>
+                    <a href="./manageScreening?operation_get=delete&screening_id=${screening.screeningId}" class="btn btn-secondary">Delete</a>
                   </div>
                 </div>
               </form>

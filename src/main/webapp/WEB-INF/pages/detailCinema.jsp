@@ -91,21 +91,24 @@
               </div>
             </div>
             <div class="card-body">
-              <form>
+              <form method="post">
                 <h6 class="heading-small text-muted mb-4">Movie Detail</h6>
                 <div class="pl-lg-4">
                   <div class="row">
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label">Cinema</label>
-                        <input type="text" id="movie-title" class="form-control form-control-alternative" placeholder="${cinema.name}">
+                        <input type="text" name="name" class="form-control form-control-alternative" value="${cinema.name}"/>
                       </div>
                     </div>
                     <div class="col-lg-6">
                       <div class="form-group">
                       </div>
                     </div>
+                    <input type="hidden" name="operation_post" value="update"/>
+                    <input type="hidden" name="cinema_id" value="${cinema.cinemaId}"/>
                     <input type="submit" value="Edit" class="btn btn-primary"/>
+                    <a href="./manageCinema?operation_get=delete&cinema_id=${cinema.cinemaId}" class="btn btn-primary"/>Delete</a>
                   </div>
                 </div>
               </form>

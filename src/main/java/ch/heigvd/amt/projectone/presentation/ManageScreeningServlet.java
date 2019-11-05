@@ -32,23 +32,23 @@ public class ManageScreeningServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         try {
-            String operation = request.getParameter("operation");
-            int screeningId = Integer.parseInt(request.getParameter("screening_id"));
+            String operation = request.getParameter("operation_post");
             String time = request.getParameter("screening_time");
-            String room = request.getParameter("room_name");
-            String property = request.getParameter("room_property");
+            String room = request.getParameter("room");
+            String property = request.getParameter("property");
             String userId = request.getParameter("user_id");
             User user = userManager.getUser(Integer.parseInt(userId));
-            String movieId = request.getParameter("movie_id");
-            Movie movie = movieManager.getMovie(Integer.parseInt(movieId));
-            String cinemaId = request.getParameter("cinema_id");
-            Cinema cinema = cinemaManager.getCinema(Integer.parseInt(cinemaId));
+            String movieTitle = request.getParameter("movie_title");
+            Movie movie = movieManager.findMovieByTitle(movieTitle);
+            String cinemaName = request.getParameter("cinema_name");
+            Cinema cinema = cinemaManager.findCinemaByName(cinemaName);
 
             switch (operation) {
                 case "create" :
                     screeningManager.createScreening(time, room, property, user, movie, cinema);
                     break;
                 case "update" :
+                    int screeningId = Integer.parseInt(request.getParameter("screening_id"));
                     screeningManager.updateScreening(screeningId, time, room, property, user, movie, cinema);
                     break;
                 default:
@@ -56,13 +56,13 @@ public class ManageScreeningServlet extends HttpServlet {
             }
             response.sendRedirect("./login");
         } catch(Exception e) {
-
+            e.printStackTrace();
         }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int screeningId = Integer.parseInt(request.getParameter("screeningId"));
-        String operation = request.getParameter("operation");
+        int screeningId = Integer.parseInt(request.getParameter("screening_id"));
+        String operation = request.getParameter("operation_get");
 
         switch (operation) {
             case "detail" :

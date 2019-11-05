@@ -21,17 +21,16 @@ public class ManageMovieServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            String operation = request.getParameter("operation");
-            int movieId = Integer.parseInt(request.getParameter("movie_id"));
+            String operation = request.getParameter("operation_post");
             String title = request.getParameter("title");
             String releaseYear = request.getParameter("release_year");
             String category = request.getParameter("category");
-
             switch (operation) {
                 case "create" :
                     movieManager.createMovie(title, releaseYear, category);
                     break;
                 case "update" :
+                    int movieId = Integer.parseInt(request.getParameter("movie_id"));
                     movieManager.updateMovie(movieId, title, releaseYear, category);
                     break;
                 default:
@@ -39,13 +38,13 @@ public class ManageMovieServlet extends HttpServlet {
             }
             response.sendRedirect("./login");
         } catch(Exception e) {
-
+            e.printStackTrace();
         }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int movieId = Integer.parseInt(request.getParameter("movieId"));
-        String operation = request.getParameter("operation");
+        int movieId = Integer.parseInt(request.getParameter("movie_id"));
+        String operation = request.getParameter("operation_get");
 
         switch (operation) {
             case "detail" :

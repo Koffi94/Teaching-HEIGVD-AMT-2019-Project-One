@@ -22,7 +22,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>
-    AMT - Project One
+    Your screenings
   </title>
   <!-- Favicon -->
   <link href="./assets/img/brand/favicon.png" rel="icon" type="image/png">
@@ -38,42 +38,103 @@
 </head>
 
 <body class="">
-<!-- Modal -->
+<!-- Screening Modal -->
 <div class="modal fade" id="newScreeningModal" tabindex="-1" role="dialog" aria-labelledby="newScreeningModal" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">New Screening</h5>
+        <h5 class="modal-title" id="screeningModalLabel">New Screening</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form method="post" action="./CreateScreening">
+        <form method="post" action="./manageScreening">
           <div class="form-group">
             <label class="form-control-label">Movie</label>
-            <input type="text" class="form-control" id="movie_name">
+            <input type="text" class="form-control" name="movie_title">
+          </div>
+          <div class="form-group">
+            <label class="form-control-label">Cinema</label>
+            <input type="text" class="form-control" name="cinema_name">
           </div>
           <div class="form-group">
             <label class="form-control-label">Screening Time</label>
-            <textarea class="form-control" id="screening_time"></textarea>
+            <textarea class="form-control" name="screening_time"></textarea>
           </div>
           <div class="form-group">
-            <label class="form-control-label">Room Name</label>
-            <textarea class="form-control" id="room_name"></textarea>
+            <label class="form-control-label">Room</label>
+            <textarea class="form-control" name="room"></textarea>
           </div>
           <div class="form-group">
-            <label class="form-control-label">Room Property</label>
-            <textarea class="form-control" id="room_property"></textarea>
+            <label class="form-control-label">Property</label>
+            <textarea class="form-control" name="property"></textarea>
           </div>
+          <input type="hidden" name="user_id" value="${user.userId}"/>
+          <input type="hidden" name="operation_post" value="create"/>
+          <input type="submit" value="Create" class="btn btn-primary"/>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" data-dismiss="modal">Create</button>
       </div>
     </div>
   </div>
 </div>
+
+<!-- Movie Modal -->
+<div class="modal fade" id="newMovieModal" tabindex="-1" role="dialog" aria-labelledby="newMovieModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="movieModalLabel">New Movie</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="./manageMovie">
+          <div class="form-group">
+            <label class="form-control-label">Title</label>
+            <input type="text" class="form-control" name="title">
+          </div>
+          <div class="form-group">
+            <label class="form-control-label">Release Year</label>
+            <input type="text" class="form-control" name="release_year">
+          </div>
+          <div class="form-group">
+            <label class="form-control-label">Category</label>
+            <input type="text" class="form-control" name="category">
+          </div>
+          <input type="hidden" name="operation_post" value="create"/>
+          <input type="submit" value="Create" class="btn btn-primary"/>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cinema Modal -->
+<div class="modal fade" id="newCinemaModal" tabindex="-1" role="dialog" aria-labelledby="newCinemaModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cinemaModalLabel">New Cinema</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="./manageCinema">
+          <div class="form-group">
+            <label class="form-control-label">Name</label>
+            <input type="text" class="form-control" name="name">
+          </div>
+          <input type="hidden" name="operation_post" value="create"/>
+          <input type="submit" value="Create" class="btn btn-primary"/>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
   <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
     <div class="container-fluid">
       <!-- Toggler -->
@@ -149,10 +210,25 @@
     <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
       <div class="container-fluid">
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#newScreeningModal">
-          New Screening
-        </button>
-
+        <table style="width: 30%">
+          <tr>
+            <td>
+              <button type="button" class="btn btn-info" data-toggle="modal" data-target="#newScreeningModal">
+                New Screening
+              </button>
+            </td>
+            <td>
+              <button type="button" class="btn btn-info" data-toggle="modal" data-target="#newMovieModal">
+                New Movie
+              </button>
+            </td>
+            <td>
+              <button type="button" class="btn btn-info" data-toggle="modal" data-target="#newCinemaModal">
+                New Cinema
+              </button>
+            </td>
+          </tr>
+        </table>
         <!-- User -->
         <ul class="navbar-nav align-items-center d-none d-md-flex">
           <li class="nav-item dropdown">
@@ -196,7 +272,7 @@
         <div class="col">
           <div class="card bg-default shadow">
             <div class="card-header bg-transparent border-0">
-              <h3 class="text-white mb-0">Card tables</h3>
+              <h3 class="text-white mb-0">Showings</h3>
             </div>
             <div class="table-responsive">
               <table id="dtBasicExample" class="table align-items-center table-dark table-flush table-striped table-sm" cellspacing="0" width="100%">
@@ -212,17 +288,17 @@
                   <C:forEach items="${screenings}" var="screening">
                     <tr>
                       <td>
-                        <a href="./manageMovie?operation=detail&movieId=${screening.movie.movieId}">${screening.movie.title}</a>
+                        <a href="./manageMovie?operation_get=detail&movie_id=${screening.movie.movieId}">${screening.movie.title}</a>
                       </td>
                       <td>
-                        <a href="./manageCinema?operation=detail&cinemaId=${screening.cinema.cinemaId}">${screening.cinema.name}</a>
+                        <a href="./manageCinema?operation_get=detail&cinema_id=${screening.cinema.cinemaId}">${screening.cinema.name}</a>
                       </td>
                       <td>
                           ${screening.time}
                       </td>
                       <td>
-                        <a href="./manageScreening?operation=detail&screeningId=${screening.screeningId}">Details</a>
-                        <a href="./manageScreening?operation=delete&screeningId=${screening.screeningId}">Delete</a>
+                        <a href="./manageScreening?operation_get=detail&screening_id=${screening.screeningId}">Details</a>
+                        <a href="./manageScreening?operation_get=delete&screening_id=${screening.screeningId}">Delete</a>
                       </td>
                     </tr>
                   </C:forEach>

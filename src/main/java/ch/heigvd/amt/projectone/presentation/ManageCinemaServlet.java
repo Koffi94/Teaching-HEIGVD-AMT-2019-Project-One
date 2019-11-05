@@ -18,8 +18,7 @@ public class ManageCinemaServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            String operation = request.getParameter("operation");
-            int cinemaId = Integer.parseInt(request.getParameter("cinema_id"));
+            String operation = request.getParameter("operation_post");
             String name = request.getParameter("name");
 
             switch (operation) {
@@ -27,6 +26,7 @@ public class ManageCinemaServlet extends HttpServlet {
                     cinemaManager.createCinema(name);
                     break;
                 case "update" :
+                    int cinemaId = Integer.parseInt(request.getParameter("cinema_id"));
                     cinemaManager.updateCinema(cinemaId, name);
                     break;
                 default:
@@ -40,8 +40,8 @@ public class ManageCinemaServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int cinemaId = Integer.parseInt(request.getParameter("cinemaId"));
-        String operation = request.getParameter("operation");
+        int cinemaId = Integer.parseInt(request.getParameter("cinema_id"));
+        String operation = request.getParameter("operation_get");
 
         switch (operation) {
             case "detail" :
