@@ -5,7 +5,7 @@ http://jboss.org/schema/arquillian
 http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
     <container qualifier="payara-remote" default="true">
         <configuration>
-            <property name="chameleonTarget">payara:5.182:remote</property>
+            <property name="chameleonTarget">payara:5.193:remote</property>
             <property name="adminHost">localhost</property>
             <property name="adminPort">4848</property>
             <property name="adminUser">admin</property>
