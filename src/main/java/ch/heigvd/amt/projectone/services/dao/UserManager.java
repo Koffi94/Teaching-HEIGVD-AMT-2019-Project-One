@@ -46,7 +46,11 @@ public class UserManager implements UserManagerLocal {
             ResultSet rs = pstmt.executeQuery();
 
             if(rs.next()) {
-                user = new User(rs.getInt("user_id"), rs.getString("username"), rs.getString("password"));
+                user = User.builder()
+                        .userId(rs.getInt("user_id"))
+                        .username(rs.getString("username"))
+                        .password(rs.getString("password"))
+                        .build();
             }
             connection.close();
         } catch (SQLException e) {
@@ -65,7 +69,11 @@ public class UserManager implements UserManagerLocal {
             ResultSet rs = pstmt.executeQuery();
 
             if(rs.next()) {
-                user = new User(rs.getInt("user_id"), rs.getString("username"), rs.getString("password"));
+                user = User.builder()
+                        .userId(rs.getInt("user_id"))
+                        .username(rs.getString("username"))
+                        .password(rs.getString("password"))
+                        .build();
             }
             connection.close();
         } catch (SQLException e) {

@@ -107,7 +107,7 @@ public class RandomDataServlet extends HttpServlet {
 
             userManager.createUser(users.get(i % users.size()), PASSWD + i);
 
-            cinemaManager.createCinema(cinemas.get(i % cinemas.size()));
+            cinemaManager.createCinema(cinemas.get(i % cinemas.size()), "Lausanne", "$$");
 
             screeningManager.createScreening(screeningTime, room, roomProperties[i % roomProperties.length],
                     userManager.findUserByName(users.get(i % users.size())),

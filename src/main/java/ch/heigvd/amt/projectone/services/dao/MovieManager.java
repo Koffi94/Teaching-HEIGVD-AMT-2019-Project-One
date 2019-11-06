@@ -51,7 +51,12 @@ public class MovieManager implements MovieManagerLocal {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                movie = new Movie(rs.getInt("movie_id"), rs.getString("title"), rs.getString("release_year"), rs.getString("category"));
+                movie = Movie.builder()
+                        .movieId(rs.getInt("movie_id"))
+                        .title(rs.getString("title"))
+                        .releaseYear(rs.getString("release_year"))
+                        .category(rs.getString("category"))
+                        .build();
             }
 
             connection.close();
@@ -74,7 +79,12 @@ public class MovieManager implements MovieManagerLocal {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                movie = new Movie(rs.getInt("movie_id"), rs.getString("title"), rs.getString("release_year"), rs.getString("category"));
+                movie = Movie.builder()
+                        .movieId(rs.getInt("movie_id"))
+                        .title(rs.getString("title"))
+                        .releaseYear(rs.getString("release_year"))
+                        .category(rs.getString("category"))
+                        .build();
             }
 
             connection.close();

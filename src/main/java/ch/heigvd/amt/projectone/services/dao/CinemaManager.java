@@ -20,13 +20,15 @@ public class CinemaManager implements CinemaManagerLocal {
     private DataSource dataSource;
 
     @Override
-    public void createCinema(String name) {
+    public void createCinema(String name, String city, String price) {
         if (findCinemaByName(name) == null) {
             try {
                 Connection connection = dataSource.getConnection();
 
-                PreparedStatement pstmt = connection.prepareStatement("INSERT INTO cinema(name) VALUES (?)");
+                PreparedStatement pstmt = connection.prepareStatement("INSERT INTO cinema(name, city, price) VALUES (?, ?, ?)");
                 pstmt.setString(1, name);
+                pstmt.setString(2, city);
+                pstmt.setString(3, price);
                 pstmt.executeUpdate();
 
                 connection.close();
@@ -48,7 +50,12 @@ public class CinemaManager implements CinemaManagerLocal {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                cinema = new Cinema(rs.getInt("cinema_id"), rs.getString("name"));
+                cinema = Cinema.builder()
+                        .cinemaId(rs.getInt("cinema_id"))
+                        .name(rs.getString("name"))
+                        .city(rs.getString("city"))
+                        .price(rs.getString("price"))
+                        .build();
             }
 
             connection.close();
@@ -71,7 +78,12 @@ public class CinemaManager implements CinemaManagerLocal {
             ResultSet rs = pstmt.executeQuery();
 
             if(rs.next()) {
-                cinema = new Cinema(rs.getInt("cinema_id"), rs.getString("name"));
+                cinema = Cinema.builder()
+                        .cinemaId(rs.getInt("cinema_id"))
+                        .name(rs.getString("name"))
+                        .city(rs.getString("city"))
+                        .price(rs.getString("price"))
+                        .build();
             }
 
             connection.close();
@@ -83,13 +95,15 @@ public class CinemaManager implements CinemaManagerLocal {
     }
 
     @Override
-    public void updateCinema(int cinemaId, String name) {
+    public void updateCinema(int cinemaId, String name, String city, String price) {
         if(getCinema(cinemaId) != null) {
             try {
                 Connection connection = dataSource.getConnection();
-                PreparedStatement pstmt = connection.prepareStatement("UPDATE cinema SET name = ? WHERE cinema_id = ?");
+                PreparedStatement pstmt = connection.prepareStatement("UPDATE cinema SET name = ?, city = ?, price = ? WHERE cinema_id = ?");
                 pstmt.setString(1, name);
-                pstmt.setInt(2, cinemaId);
+                pstmt.setString(2, city);
+                pstmt.setString(3, price);
+                pstmt.setInt(4, cinemaId);
                 pstmt.executeUpdate();
                 connection.close();
             } catch(SQLException e) {

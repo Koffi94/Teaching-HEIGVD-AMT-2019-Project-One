@@ -92,19 +92,33 @@
             </div>
             <div class="card-body">
               <form method="post">
-                <h6 class="heading-small text-muted mb-4">Movie Detail</h6>
-                <div class="pl-lg-4">
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label">Cinema</label>
-                        <input type="text" name="name" class="form-control form-control-alternative" value="${cinema.name}"/>
+                  <h6 class="heading-small text-muted mb-4">Cinema Detail</h6>
+                  <div class="pl-lg-4">
+                      <div class="row">
+                          <div class="col-lg-6">
+                              <div class="form-group">
+                                  <label class="form-control-label">Name</label>
+                                  <input type="text" name="name" class="form-control form-control-alternative" value="${cinema.name}"/>
+                              </div>
+                          </div>
+                          <div class="col-lg-6">
+                              <div class="form-group">
+                                  <label class="form-control-label">City</label>
+                                  <input type="text" name="city" class="form-control form-control-alternative" value="${cinema.city}"/>
+                              </div>
+                          </div>
                       </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                      </div>
-                    </div>
+                      <div class="row">
+                          <div class="col-lg-6">
+                              <div class="form-group">
+                                  <label class="form-control-label">Price</label>
+                                  <input type="text" name="price" class="form-control form-control-alternative" value="${cinema.price}"/>
+                              </div>
+                          </div>
+                          <div class="col-lg-6">
+                              <div class="form-group">
+                              </div>
+                          </div>
                     <input type="hidden" name="operation_post" value="update"/>
                     <input type="hidden" name="cinema_id" value="${cinema.cinemaId}"/>
                     <input type="submit" value="Edit" class="btn btn-primary"/>

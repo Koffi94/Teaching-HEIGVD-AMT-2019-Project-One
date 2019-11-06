@@ -127,6 +127,14 @@
             <label class="form-control-label">Name</label>
             <input type="text" class="form-control" name="name">
           </div>
+          <div class="form-group">
+            <label class="form-control-label">City</label>
+            <input type="text" class="form-control" name="city">
+          </div>
+          <div class="form-group">
+            <label class="form-control-label">Price</label>
+            <input type="text" class="form-control" name="price">
+          </div>
           <input type="hidden" name="operation_post" value="create"/>
           <input type="submit" value="Create" class="btn btn-primary"/>
         </form>
@@ -275,7 +283,7 @@
               <h3 class="text-white mb-0">Showings</h3>
             </div>
             <div class="table-responsive">
-              <table id="dtBasicExample" class="table align-items-center table-dark table-flush table-striped table-sm" cellspacing="0" width="100%">
+              <table class="table align-items-center table-dark table-flush" cellspacing="0" width="100%">
                 <thead class="thead-dark">
                   <tr>
                     <th scope="col">Movie</th>
@@ -305,6 +313,31 @@
                 </tbody>
               </table>
             </div>
+            <div class="py-4 table-dark">
+              <nav aria-label="...">
+                <ul class="pagination justify-content-end mb-0">
+                  <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">
+                      <i class="fas fa-angle-left"></i>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                  </li>
+                  <li class="page-item active">
+                    <a class="page-link" href="#">1</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item">
+                    <a class="page-link" href="#">
+                      <i class="fas fa-angle-right"></i>
+                      <span class="sr-only">Next</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
           </div>
         </div>
       </div>
@@ -316,14 +349,6 @@
   <!--   Optional JS   -->
   <!--   Argon JS   -->
   <script src="./assets/js/argon-dashboard.min.js?v=1.1.0"></script>
-  <!-- MDBootstrap Datatables  -->
-  <script type="text/javascript" src="./assets/js/addons/datatables.min.js"></script>
-  <script>
-    $(document).ready(function () {
-      $('#dtBasicExample').DataTable();
-      $('.dataTables_length').addClass('bs-select');
-    });
-  </script>
 </body>
 
 </html>

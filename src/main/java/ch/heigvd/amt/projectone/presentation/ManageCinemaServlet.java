@@ -20,14 +20,16 @@ public class ManageCinemaServlet extends HttpServlet {
         try {
             String operation = request.getParameter("operation_post");
             String name = request.getParameter("name");
+            String city = request.getParameter("city");
+            String price = request.getParameter("price");
 
             switch (operation) {
                 case "create" :
-                    cinemaManager.createCinema(name);
+                    cinemaManager.createCinema(name, city, price);
                     break;
                 case "update" :
                     int cinemaId = Integer.parseInt(request.getParameter("cinema_id"));
-                    cinemaManager.updateCinema(cinemaId, name);
+                    cinemaManager.updateCinema(cinemaId, name, city, price);
                     break;
                 default:
                     break;

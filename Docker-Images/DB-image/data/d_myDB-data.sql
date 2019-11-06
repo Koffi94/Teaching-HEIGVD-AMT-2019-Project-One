@@ -22,8 +22,8 @@ COMMIT;
 
 SET AUTOCOMMIT=0;
 INSERT INTO cinema VALUES
-(1,'Pathe Flon'),
-(2,'CineToile');
+(1,'Pathe Flon', 'Lausanne', '$$$'),
+(2,'CineToile', 'Morges', '$$');
 COMMIT;
 
 SET AUTOCOMMIT=0;

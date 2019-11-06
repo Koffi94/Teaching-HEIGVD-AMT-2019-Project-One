@@ -65,7 +65,15 @@ public class ScreeningManager implements ScreeningManagerLocal {
                 User user = userManager.getUser(rs.getInt("user_id"));
                 Movie movie = movieManager.getMovie(rs.getInt("movie_id"));
                 Cinema cinema = cinemaManager.getCinema(rs.getInt("cinema_id"));
-                screening = new Screening(rs.getInt("screening_id"), rs.getString("time"), rs.getString("room"), rs.getString("property"), user, movie, cinema);
+                screening = Screening.builder()
+                        .screeningId(screeningId)
+                        .time(rs.getString("time"))
+                        .room(rs.getString("room"))
+                        .property(rs.getString("property"))
+                        .user(user)
+                        .movie(movie)
+                        .cinema(cinema)
+                        .build();
             }
             connection.close();
         } catch(SQLException e) {
@@ -92,7 +100,15 @@ public class ScreeningManager implements ScreeningManagerLocal {
                 Movie movie = movieManager.getMovie(movieId);
                 int cinemaId = rs.getInt("cinema_id");
                 Cinema cinema = cinemaManager.getCinema(cinemaId);
-                screenings.add(new Screening(screeningId, time, room, property, user, movie, cinema));
+                screenings.add(Screening.builder()
+                        .screeningId(screeningId)
+                        .time(time)
+                        .room(room)
+                        .property(property)
+                        .user(user)
+                        .movie(movie)
+                        .cinema(cinema)
+                        .build());
             }
             connection.close();
         } catch(SQLException e) {
