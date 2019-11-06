@@ -1,5 +1,5 @@
 # https://hub.docker.com/r/payara/server-web
-FROM payara/server-full:latest
+FROM payara/server-full:5.193
 LABEL maintainer="Nathanael Mizutani <nathanael.mizutani@heig-vd.ch>, Olivier Koffi <olivier.koffi@heg-vd.ch>"
 
 ADD drivers/mysql-connector-java-5.1.48-bin.jar ./appserver/glassfish/lib/
