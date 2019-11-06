@@ -91,20 +91,20 @@
               </div>
             </div>
             <div class="card-body">
-              <form>
+              <form method="post">
                 <h6 class="heading-small text-muted mb-4">Movie Detail</h6>
                 <div class="pl-lg-4">
                   <div class="row">
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label">Title</label>
-                        <input type="text" id="movie-title" class="form-control form-control-alternative" placeholder="${movie.title}">
+                        <input type="text" name="title" class="form-control form-control-alternative" value="${movie.title}"/>
                       </div>
                     </div>
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label">Release Year</label>
-                        <input type="text" id="release-year" class="form-control form-control-alternative" placeholder=${movie.releaseYear.toString().substring(0,4)}>
+                        <input type="text" name="release_year" class="form-control form-control-alternative" value="${movie.releaseYear.toString().substring(0,4)}"/>
                       </div>
                     </div>
                   </div>
@@ -112,14 +112,17 @@
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label">Category</label>
-                        <input type="text" id="category" class="form-control form-control-alternative" placeholder=${movie.category}>
+                        <input type="text" name="category" class="form-control form-control-alternative" value="${movie.category}"/>
                       </div>
                     </div>
                     <div class="col-lg-6">
                       <div class="form-group">
                       </div>
                     </div>
+                    <input type="hidden" name="operation_post" value="update"/>
+                    <input type="hidden" name="movie_id" value="${movie.movieId}"/>
                     <input type="submit" value="Edit" class="btn btn-primary"/>
+                    <a href="./manageMovie?operation_get=delete&movie_id=${movie.movieId}" class="btn btn-primary"/>Delete</a>
                   </div>
                 </div>
               </form>
