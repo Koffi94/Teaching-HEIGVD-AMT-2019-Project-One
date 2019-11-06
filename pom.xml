@@ -15,6 +15,10 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <version.arquillian_universe>1.2.0.2</version.arquillian_universe>
+    <version.arquillian.chameleon>1.0.0.CR6</version.arquillian.chameleon>
+    <version.arquillian>1.5.0.Final</version.arquillian>
+    <arquillian.launch></arquillian.launch>
   </properties>
 
   <dependencies>
@@ -42,6 +46,7 @@
       <version>1.18.10</version>
       <scope>provided</scope>
     </dependency>
+    <!-- https://github.com/DiUS/java-faker -->
     <dependency>
       <groupId>com.github.javafaker</groupId>
       <artifactId>javafaker</artifactId>
@@ -53,7 +58,61 @@
       <artifactId>jbcrypt</artifactId>
       <version>0.4</version>
     </dependency>
-
+    <!-- Mockito -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>5.4.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.4.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+      <version>5.4.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>3.0.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>2.20.0</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- Arquillian : http://arquillian.org/-->
+    <dependency>
+      <groupId>org.arquillian.container</groupId>
+      <artifactId>arquillian-chameleon-junit-container-starter</artifactId>
+      <version>${version.arquillian.chameleon}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.arquillian.extension</groupId>
+      <artifactId>arquillian-transaction-jta</artifactId>
+      <version>1.0.5</version>
+    </dependency>
+    <dependency>
+      <groupId>org.arquillian.container</groupId>
+      <artifactId>arquillian-container-chameleon-runner</artifactId>
+      <version>${version.arquillian.chameleon}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.arquillian.container</groupId>
+      <artifactId>arquillian-chameleon-maven-build-deployment</artifactId>
+      <version>${version.arquillian.chameleon}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
