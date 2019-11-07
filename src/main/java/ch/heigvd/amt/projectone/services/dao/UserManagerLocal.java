@@ -8,7 +8,7 @@ import javax.ejb.Local;
 public interface UserManagerLocal {
 
     // CRUD
-    public void createUser(String username, String password);
+    public User createUser(String username, String password);
     public User findUserByName(String username);
     public User getUser(int userId);
     public void updateUser(int userId, String username, String password);

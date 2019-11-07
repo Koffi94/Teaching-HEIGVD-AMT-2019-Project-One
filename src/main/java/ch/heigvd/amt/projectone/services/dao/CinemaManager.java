@@ -20,7 +20,9 @@ public class CinemaManager implements CinemaManagerLocal {
     private DataSource dataSource;
 
     @Override
-    public void createCinema(String name, String city, String price) {
+    public Cinema createCinema(String name, String city, String price) {
+        Cinema cinema = null;
+
         if (findCinemaByName(name) == null) {
             try {
                 Connection connection = dataSource.getConnection();
@@ -30,12 +32,14 @@ public class CinemaManager implements CinemaManagerLocal {
                 pstmt.setString(2, city);
                 pstmt.setString(3, price);
                 pstmt.executeUpdate();
-
                 connection.close();
+
+                cinema = findCinemaByName(name);
             } catch (SQLException e) {
                 Logger.getLogger(ScreeningManager.class.getName()).log(Level.SEVERE, null, e);
             }
         }
+        return cinema;
     }
 
     @Override

@@ -9,7 +9,7 @@ import java.sql.Date;
 public interface MovieManagerLocal {
 
     // CRUD
-    public void createMovie(String title, String releaseYear, String category);
+    public Movie createMovie(String title, String releaseYear, String category);
     public Movie findMovieByTitle(String title);
     public Movie getMovie(int movieId);
     public void updateMovie(int movieId, String title, String releaseYear, String category);

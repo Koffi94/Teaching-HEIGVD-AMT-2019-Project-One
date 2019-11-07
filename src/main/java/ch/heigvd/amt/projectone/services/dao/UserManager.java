@@ -20,20 +20,24 @@ public class UserManager implements UserManagerLocal {
     private DataSource dataSource;
 
     @Override
-    public void createUser(String username, String password) {
+    public User createUser(String username, String password) {
+        User user = null;
 
-        if(findUserByName(username) == null) {
+        if (findUserByName(username) == null) {
             try {
                 Connection connection = dataSource.getConnection();
                 PreparedStatement pstmt = connection.prepareStatement("INSERT INTO user(username, password) VALUES (?, ?)");
                 pstmt.setString(1, username);
                 pstmt.setString(2, BCrypt.hashpw(password, BCrypt.gensalt()));
                 pstmt.executeUpdate();
+
+                user = findUserByName(username);
                 connection.close();
             } catch (SQLException e) {
                 Logger.getLogger(ScreeningManager.class.getName()).log(Level.SEVERE, null, e);
             }
         }
+        return user;
     }
 
     @Override

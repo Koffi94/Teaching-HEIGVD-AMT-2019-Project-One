@@ -8,7 +8,7 @@ import javax.ejb.Local;
 public interface CinemaManagerLocal {
 
     // CRUD
-    public void createCinema(String name, String city, String price);
+    public Cinema createCinema(String name, String city, String price);
     public Cinema findCinemaByName(String name);
     public Cinema getCinema(int cinemaId);
     public void updateCinema(int cinemaId, String name, String city, String price);

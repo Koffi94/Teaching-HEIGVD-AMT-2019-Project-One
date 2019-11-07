@@ -20,7 +20,9 @@ public class MovieManager implements MovieManagerLocal {
     private DataSource dataSource;
 
     @Override
-    public void createMovie(String title, String releaseYear, String category) {
+    public Movie createMovie(String title, String releaseYear, String category) {
+        Movie movie = null;
+
         if (findMovieByTitle(title) == null) {
             try {
                 Connection connection = dataSource.getConnection();
@@ -32,11 +34,14 @@ public class MovieManager implements MovieManagerLocal {
                 pstmt.setString(3, category);
                 pstmt.executeUpdate();
 
+                movie = findMovieByTitle(title);
+
                 connection.close();
             } catch (SQLException e) {
                 Logger.getLogger(ScreeningManager.class.getName()).log(Level.SEVERE, null, e);
             }
         }
+        return  movie;
     }
 
     @Override
