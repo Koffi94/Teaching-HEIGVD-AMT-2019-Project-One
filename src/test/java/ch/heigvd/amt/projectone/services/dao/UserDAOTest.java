@@ -14,7 +14,7 @@ import javax.ejb.DuplicateKeyException;
 import javax.ejb.EJB;
 import java.sql.SQLException;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 @RunWith(Arquillian.class)
 @MavenBuild
@@ -29,8 +29,9 @@ public class UserDAOTest {
 
     @Test
     @Transactional(TransactionMode.ROLLBACK)
-    public void itShouldBePossibleTOCreateUser() throws DuplicateKeyException, SQLException {
+    public void itShouldBePossibleToCreateUser() throws DuplicateKeyException, SQLException {
         userManager.createUser(USERNAME, USERPW);
+        assertNotNull(userManager.findUserByName(USERNAME));
     }
 
     @Test
@@ -54,7 +55,7 @@ public class UserDAOTest {
 
         userManager.deleteUser(userManager.findUserByName(USERNAME).getUserId());
 
-        assertEquals(false, userManager.checkUser(USERNAME, USERPW));
+        assertFalse(userManager.checkUser(USERNAME, USERPW));
     }
 
     @Test
