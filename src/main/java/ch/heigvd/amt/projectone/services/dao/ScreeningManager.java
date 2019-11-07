@@ -118,6 +118,62 @@ public class ScreeningManager implements ScreeningManagerLocal {
     }
 
     @Override
+    public List<Screening> getScreeningsPage(User user, int pageSize, int offset) {
+        List<Screening> screenings = new LinkedList<>();
+        try {
+            Connection connection = dataSource.getConnection();
+
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM screening WHERE user_id = ? LIMIT ? OFFSET ?");
+            pstmt.setInt(1, user.getUserId());
+            pstmt.setInt(2, pageSize);
+            pstmt.setInt(3, offset);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                int screeningId = rs.getInt("screening_id");
+                String time = rs.getString("time");
+                String room = rs.getString("room");
+                String property = rs.getString("property");
+                int movieId = rs.getInt("movie_id");
+                Movie movie = movieManager.getMovie(movieId);
+                int cinemaId = rs.getInt("cinema_id");
+                Cinema cinema = cinemaManager.getCinema(cinemaId);
+                screenings.add(Screening.builder()
+                        .screeningId(screeningId)
+                        .time(time)
+                        .room(room)
+                        .property(property)
+                        .user(user)
+                        .movie(movie)
+                        .cinema(cinema)
+                        .build());
+            }
+            connection.close();
+        } catch(SQLException e) {
+            Logger.getLogger(ScreeningManager.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return screenings;
+    }
+
+    @Override
+    public Integer getScreeningsQuantity(User user) {
+        Integer counter = 0;
+        try {
+            Connection connection = dataSource.getConnection();
+
+            PreparedStatement pstmt = connection.prepareStatement("SELECT COUNT(*) FROM screening WHERE user_id = ?");
+            pstmt.setInt(1, user.getUserId());
+            ResultSet rs = pstmt.executeQuery();
+            if(rs.next()) {
+                counter = rs.getInt(1);
+            }
+            connection.close();
+        } catch(SQLException e) {
+            Logger.getLogger(ScreeningManager.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return counter;
+    }
+
+    @Override
     public void updateScreening(int screeningId, String time, String room, String property, User user, Movie movie, Cinema cinema) {
         try {
             Connection connection = dataSource.getConnection();

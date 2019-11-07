@@ -7,7 +7,6 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -27,14 +26,10 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response)
             throws javax.servlet.ServletException, IOException{
         HttpSession session = request.getSession();
-
-        if(session.getAttribute("session").equals("ok")) {
-            User user = userManager.findUserByName((String) session.getAttribute("username"));
-            request.setAttribute("user", user);
-            request.setAttribute("screenings", screeningManager.findScreeningsByOwner(user));
-            request.getRequestDispatcher("./WEB-INF/pages/dashboard.jsp").forward(request, response);
+        if(session.getAttribute("authenticated") == null) {
+            request.getRequestDispatcher("./WEB-INF/pages/login.jsp").forward(request, response);
         } else {
-            request.getRequestDispatcher("./login.jsp").forward(request, response);
+            response.sendRedirect("./home");
         }
     }
 
@@ -55,16 +50,14 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
             newSession.setMaxInactiveInterval(60*5);
 
             // Set session attributes
+            newSession.setAttribute("user_id", user.getUserId());
             newSession.setAttribute("username", user.getUsername());
             newSession.setAttribute("password", user.getPassword());
+            newSession.setAttribute("authenticated", "yes");
 
-            request.setAttribute("user", user);
-            request.setAttribute("screenings", screeningManager.findScreeningsByOwner(user));
-            request.getRequestDispatcher("./WEB-INF/pages/dashboard.jsp").forward(request, response);
+            response.sendRedirect("./home");
         } else {
-            //PrintWriter out = response.getWriter();
-            //out.println("<script>alert(\"Wrong password !\");</script>");
-            request.getRequestDispatcher("./login.jsp").forward(request, response);
+            request.getRequestDispatcher("./WEB-INF/pages/login.jsp").forward(request, response);
         }
     }
 }

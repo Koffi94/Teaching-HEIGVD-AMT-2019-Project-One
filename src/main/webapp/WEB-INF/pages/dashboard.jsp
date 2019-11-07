@@ -49,7 +49,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form method="post" action="./manageScreening">
+        <form method="post" action="./home">
           <div class="form-group">
             <label class="form-control-label">Movie</label>
             <input type="text" class="form-control" name="movie_title">
@@ -305,8 +305,8 @@
                           ${screening.time}
                       </td>
                       <td>
-                        <a href="./manageScreening?operation_get=detail&screening_id=${screening.screeningId}">Details</a>
-                        <a href="./manageScreening?operation_get=delete&screening_id=${screening.screeningId}">Delete</a>
+                        <a href="./home?operation_get=detail&screening_id=${screening.screeningId}">Details</a>
+                        <a href="./home?operation_get=delete&screening_id=${screening.screeningId}">Delete</a>
                       </td>
                     </tr>
                   </C:forEach>
@@ -316,25 +316,42 @@
             <div class="py-4 table-dark">
               <nav aria-label="...">
                 <ul class="pagination justify-content-end mb-0">
-                  <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">
-                      <i class="fas fa-angle-left"></i>
-                      <span class="sr-only">Previous</span>
+                  <%int currentPage = ((Integer) request.getAttribute("current_page"));%>
+                  <%int lastPage = ((Integer) request.getAttribute("last_page"));%>
+                  <%if(currentPage != 1) {%>
+                    <li class="page-item">
+                      <a class="page-link" href="./home?operation_get=page&current_page=1">
+                        <i class="fas fa-angle-double-left"></i>
+                        <span class="sr-only">First</span>
+                      </a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="./home?operation_get=page&current_page=<%=currentPage-1%>">
+                        <i class="fas fa-angle-left"></i>
+                        <span class="sr-only">Previous</span>
+                      </a>
+                    </li>
+                  <%}%>
+                  <li class="page-item">
+                    <a class="page-link" style="color: black">
+                      <%=currentPage%>
+                      <span class="sr-only">Current</span>
                     </a>
                   </li>
-                  <li class="page-item active">
-                    <a class="page-link" href="#">1</a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                  </li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">
-                      <i class="fas fa-angle-right"></i>
-                      <span class="sr-only">Next</span>
-                    </a>
-                  </li>
+                  <%if(currentPage != lastPage) {%>
+                    <li class="page-item">
+                      <a class="page-link" href="./home?operation_get=page&current_page=<%=currentPage+1%>">
+                        <i class="fas fa-angle-right"></i>
+                        <span class="sr-only">Next</span>
+                      </a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="./home?operation_get=page&current_page=${last_page}">
+                        <i class="fas fa-angle-double-right"></i>
+                        <span class="sr-only">Last</span>
+                      </a>
+                    </li>
+                  <%}%>
                 </ul>
               </nav>
             </div>

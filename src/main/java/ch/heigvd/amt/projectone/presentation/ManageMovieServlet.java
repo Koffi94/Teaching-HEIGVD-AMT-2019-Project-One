@@ -36,7 +36,7 @@ public class ManageMovieServlet extends HttpServlet {
                 default:
                     break;
             }
-            response.sendRedirect("./login");
+            response.sendRedirect("./home");
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -54,7 +54,7 @@ public class ManageMovieServlet extends HttpServlet {
                 break;
             case "delete" :
                 movieManager.deleteMovie(movieId);
-                response.sendRedirect("./login");
+                response.sendRedirect("./home");
                 break;
             default:
                 break;

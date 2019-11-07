@@ -54,7 +54,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ManageScreeningServlet</servlet-name>
-        <url-pattern>/manageScreening</url-pattern>
+        <url-pattern>/home</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ManageMovieServlet</servlet-name>

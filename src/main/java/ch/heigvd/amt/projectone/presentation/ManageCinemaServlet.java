@@ -34,7 +34,7 @@ public class ManageCinemaServlet extends HttpServlet {
                 default:
                     break;
             }
-            response.sendRedirect("./login");
+            response.sendRedirect("./home");
         } catch(Exception e) {
 
         }
@@ -53,7 +53,7 @@ public class ManageCinemaServlet extends HttpServlet {
                 break;
             case "delete" :
                 cinemaManager.deleteCinema(cinemaId);
-                response.sendRedirect("./login");
+                response.sendRedirect("./home");
                 break;
             default:
                 break;
