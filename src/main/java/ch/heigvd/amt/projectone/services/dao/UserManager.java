@@ -84,7 +84,7 @@ public class UserManager implements UserManagerLocal {
 
     @Override
     public void updateUser(int userId, String username, String password) {
-        if(findUserByName(username) != null) {
+        if(getUser(userId) != null) {
             try {
                 Connection connection = dataSource.getConnection();
                 PreparedStatement pstmt = connection.prepareStatement("UPDATE user SET username = ?, password = ? WHERE user_id = ?");
