@@ -1,16 +1,12 @@
-package ch.heigvd.amt.projectone.integration;
+package ch.heigvd.amt.projectone.integraton;
 
 import ch.heigvd.amt.projectone.model.User;
 import ch.heigvd.amt.projectone.services.dao.UserManagerLocal;
 import org.arquillian.container.chameleon.deployment.api.DeploymentParameters;
 import org.arquillian.container.chameleon.deployment.maven.MavenBuild;
-import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -27,12 +23,6 @@ public class UserDAOTest {
 
     @EJB
     UserManagerLocal userManager;
-
-   /*@Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-    }*/
 
     @Test
     @Transactional(TransactionMode.ROLLBACK)
@@ -55,7 +45,12 @@ public class UserDAOTest {
     }
 
     @Test
-    @Transactional public void itShouldBePossibleToDeleteAUser() throws DuplicateKeyException, SQLException {
+    @Transactional(TransactionMode.ROLLBACK)
+    public void itShouldBePossibleToDeleteAUser() throws DuplicateKeyException, SQLException {
+        userManager.createUser("testUser", "testpw");
 
+        userManager.deleteUser(userManager.findUserByName("testUser").getUserId());
+
+        assertEquals(null, userManager.findUserByName("testUser"));
     }
 }
