@@ -54,7 +54,6 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
             newSession.setAttribute("username", user.getUsername());
             newSession.setAttribute("password", user.getPassword());
             newSession.setAttribute("authenticated", "yes");
-
             response.sendRedirect("./home");
         } else {
             request.getRequestDispatcher("./WEB-INF/pages/login.jsp").forward(request, response);

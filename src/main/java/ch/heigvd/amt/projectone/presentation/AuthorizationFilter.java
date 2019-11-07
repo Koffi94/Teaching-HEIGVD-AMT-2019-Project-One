@@ -21,15 +21,18 @@ public class AuthorizationFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpSession session = request.getSession();
         String path = request.getRequestURI().substring(request.getContextPath().length());
+
+        // We do a blacklist because it's easier to manage with the bootstrap template
         boolean isTargetUrlProtected = false;
 
-        // login page can be accessed without being authenticated
+        // Explicit paths that user cannot access without being authenticated
+        if(path.startsWith("/home") || path.startsWith("/manage")) {
+            isTargetUrlProtected = true;
+        }
 
         if(session.getAttribute("authenticated") == null && isTargetUrlProtected) {
-            chain.doFilter(req, resp);
-            //request.getRequestDispatcher("./WEB-INF/pages/login.jsp").forward(req, resp);
+            request.getRequestDispatcher("./WEB-INF/pages/login.jsp").forward(req, resp);
         } else {
-            session.setMaxInactiveInterval(60*5);
             chain.doFilter(req, resp);
         }
     }
