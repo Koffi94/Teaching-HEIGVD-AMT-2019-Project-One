@@ -21,39 +21,39 @@ import static org.junit.Assert.*;
 @DeploymentParameters(testable = true)
 public class UserDAOTest {
 
-    private static final String USERNAME = "testUser";
-    private static final String USERPW = "testpw";
-
     @EJB
     UserManagerLocal userManager;
+
+    // User parameter
+    private static final String USERNAME = "testUser";
+    private static final String USERPW = "testpw";
 
     @Test
     @Transactional(TransactionMode.ROLLBACK)
     public void itShouldBePossibleToCreateUser() throws DuplicateKeyException, SQLException {
-        userManager.createUser(USERNAME, USERPW);
-        assertNotNull(userManager.findUserByName(USERNAME));
+        User user = userManager.createUser(USERNAME, USERPW);
+        assertNotNull(user);
     }
 
     @Test
     @Transactional(TransactionMode.ROLLBACK)
     public void itShouldBePossibleToCreateAndRetrieveAUser() throws DuplicateKeyException, SQLException {
-        userManager.createUser(USERNAME, USERPW);
+        User user = userManager.createUser(USERNAME, USERPW);
 
         User userByName = userManager.findUserByName(USERNAME);
 
-        User userByID = userManager.getUser(userByName.getUserId());
+        User userByID = userManager.getUser(user.getUserId());
 
-        assertEquals(userByName, userByID);
-        assertEquals(USERNAME, userByName.getUsername());
-        assertEquals(USERNAME, userByID.getUsername());
+        assertEquals(user, userByName);
+        assertEquals(user, userByID);
     }
 
     @Test
     @Transactional(TransactionMode.ROLLBACK)
     public void itShouldBePossibleToDeleteAUser() throws DuplicateKeyException, SQLException {
-        userManager.createUser(USERNAME, USERPW);
+        User user = userManager.createUser(USERNAME, USERPW);
 
-        userManager.deleteUser(userManager.findUserByName(USERNAME).getUserId());
+        userManager.deleteUser(user.getUserId());
 
         assertFalse(userManager.checkUser(USERNAME, USERPW));
     }
@@ -61,20 +61,19 @@ public class UserDAOTest {
     @Test
     @Transactional(TransactionMode.ROLLBACK)
     public void itShouldBePossibleToUpdateAUser() throws DuplicateKeyException, SQLException{
-        userManager.createUser(USERNAME, USERPW);
+        User user = userManager.createUser(USERNAME, USERPW);
 
         String newName = "newtestName";
         String newPasswd = "newTestpw";
 
-        int userID = userManager.findUserByName(USERNAME).getUserId();
+        userManager.updateUser(user.getUserId(), USERNAME, newPasswd);
 
-        userManager.updateUser(userID, USERNAME, newPasswd);
+        // TODO password is returned hashed, find a way to test it nonetheless
+        assertEquals(newPasswd, user.getPassword());
 
-        assertEquals(newPasswd, userManager.getUser(userID).getPassword());
+        userManager.updateUser(user.getUserId(), newName, newPasswd);
 
-        userManager.updateUser(userID, newName, USERPW);
-
-        assertEquals(newName, userManager.getUser(userID).getUsername());
+        assertEquals(newName, user.getUsername());
 
 
     }
