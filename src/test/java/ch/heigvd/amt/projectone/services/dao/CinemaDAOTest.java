@@ -60,6 +60,7 @@ public class CinemaDAOTest {
 
         cinemaDAO.updateCinema(cinemaId, newCinemaName, newCity, newPrice);
 
+        //TODO Find why update does not work
         Assert.assertEquals(newCinemaName, cinema.getName());
 
         Assert.assertEquals(newCity, cinema.getCity());

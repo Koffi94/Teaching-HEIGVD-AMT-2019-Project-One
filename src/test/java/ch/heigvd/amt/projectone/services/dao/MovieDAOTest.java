@@ -1,5 +1,5 @@
 package ch.heigvd.amt.projectone.services.dao;
-/*
+
 import ch.heigvd.amt.projectone.model.Movie;
 
 import org.arquillian.container.chameleon.deployment.api.DeploymentParameters;
@@ -61,6 +61,8 @@ public class MovieDAOTest {
 
         movieManager.updateMovie(movieId, newTitle, newReleaseYear, newCategory);
 
+        //TODO Find why movie is not updated
+
         Assert.assertEquals(newTitle, movie.getTitle());
 
         Assert.assertEquals(newReleaseYear, movie.getReleaseYear());
@@ -83,4 +85,3 @@ public class MovieDAOTest {
     }
 
 }
-        */

@@ -58,6 +58,9 @@ public class ScreeningDAOTest {
 
         screeningDAO.createScreening(TIME, ROOM, PROPERTY, user, movie, cinema);
 
+        //TODO retrieve screening id
+        //int screeningID = 1;
+
         Assert.assertNotNull(null);
     }
 

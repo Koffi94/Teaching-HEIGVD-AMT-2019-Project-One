@@ -1,5 +1,4 @@
 package ch.heigvd.amt.projectone.services.dao;
-/*
 import ch.heigvd.amt.projectone.model.User;
 import ch.heigvd.amt.projectone.services.dao.IUserDAO;
 import org.arquillian.container.chameleon.deployment.api.DeploymentParameters;
@@ -9,6 +8,7 @@ import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.ejb.DuplicateKeyException;
 import javax.ejb.EJB;
@@ -63,18 +63,20 @@ public class UserDAOTest {
     public void itShouldBePossibleToUpdateAUser() throws DuplicateKeyException, SQLException{
         User user = userManager.createUser(USERNAME, USERPW);
 
+
         String newName = "newtestName";
         String newPasswd = "newTestpw";
+        //int userID = user.getUserId();
 
-        userManager.updateUser(user.getUserId(), USERNAME, newPasswd);
-
-        // TODO password is returned hashed, find a way to test it nonetheless
-        assertEquals(newPasswd, user.getPassword());
+        assertNotNull(user.getUserId());
 
         userManager.updateUser(user.getUserId(), newName, newPasswd);
+
+        // TODO Find why update is not working
+        assertTrue(BCrypt.checkpw(newPasswd, user.getPassword()));
 
         assertEquals(newName, user.getUsername());
 
 
     }
-}*/
+}
