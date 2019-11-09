@@ -22,16 +22,16 @@ import javax.ejb.EJB;
 public class ScreeningDAOTest {
 
     @EJB
-    ScreeningManagerLocal screeningManager;
+    IScreeningDAO screeningDAO;
 
     @EJB
-    UserManagerLocal userManager;
+    IUserDAO userDAO;
 
     @EJB
-    MovieManagerLocal movieManager;
+    IMovieDAO movieDAO;
 
     @EJB
-    CinemaManagerLocal cinemaManager;
+    ICinemaDAO cinemaDAO;
 
     // Screening parameters
     private static final String TIME = "25:70";
@@ -52,11 +52,11 @@ public class ScreeningDAOTest {
     @Test
     @Transactional(TransactionMode.ROLLBACK)
     public void itShouldBePossibleToCreateAScreening(){
-        User user = userManager.createUser(USERNAME, PASSWD);
-        Movie movie = movieManager.createMovie(MOVIE_NAME, RELEASE_YEAR, CATEGORY);
-        Cinema cinema = cinemaManager.createCinema(CINEMA_NAME, CITY, PRICE);
+        User user = userDAO.createUser(USERNAME, PASSWD);
+        Movie movie = movieDAO.createMovie(MOVIE_NAME, RELEASE_YEAR, CATEGORY);
+        Cinema cinema = cinemaDAO.createCinema(CINEMA_NAME, CITY, PRICE);
 
-        screeningManager.createScreening(TIME, ROOM, PROPERTY, user, movie, cinema);
+        screeningDAO.createScreening(TIME, ROOM, PROPERTY, user, movie, cinema);
 
         Assert.assertNotNull(null);
     }
@@ -64,33 +64,33 @@ public class ScreeningDAOTest {
     @Test
     @Transactional(TransactionMode.ROLLBACK)
     public void itShouldBePossibleToCreateAndRetrieveAScreening(){
-        User user = userManager.createUser(USERNAME, PASSWD);
-        Movie movie = movieManager.createMovie(MOVIE_NAME, RELEASE_YEAR, CATEGORY);
-        Cinema cinema = cinemaManager.createCinema(CINEMA_NAME, CITY, PRICE);
+        User user = userDAO.createUser(USERNAME, PASSWD);
+        Movie movie = movieDAO.createMovie(MOVIE_NAME, RELEASE_YEAR, CATEGORY);
+        Cinema cinema = cinemaDAO.createCinema(CINEMA_NAME, CITY, PRICE);
 
-        screeningManager.createScreening(TIME, ROOM, PROPERTY, user, movie, cinema);
+        screeningDAO.createScreening(TIME, ROOM, PROPERTY, user, movie, cinema);
 
     }
 
     @Test
     @Transactional(TransactionMode.ROLLBACK)
     public void itShouldBePossibleToUpdateAScreening(){
-        User user = userManager.createUser(USERNAME, PASSWD);
-        Movie movie = movieManager.createMovie(MOVIE_NAME, RELEASE_YEAR, CATEGORY);
-        Cinema cinema = cinemaManager.createCinema(CINEMA_NAME, CITY, PRICE);
+        User user = userDAO.createUser(USERNAME, PASSWD);
+        Movie movie = movieDAO.createMovie(MOVIE_NAME, RELEASE_YEAR, CATEGORY);
+        Cinema cinema = cinemaDAO.createCinema(CINEMA_NAME, CITY, PRICE);
 
-        screeningManager.createScreening(TIME, ROOM, PROPERTY, user, movie, cinema);
+        screeningDAO.createScreening(TIME, ROOM, PROPERTY, user, movie, cinema);
 
     }
 
     @Test
     @Transactional(TransactionMode.ROLLBACK)
     public void itShouldBePossibleToDeleteAScreening(){
-        User user = userManager.createUser(USERNAME, PASSWD);
-        Movie movie = movieManager.createMovie(MOVIE_NAME, RELEASE_YEAR, CATEGORY);
-        Cinema cinema = cinemaManager.createCinema(CINEMA_NAME, CITY, PRICE);
+        User user = userDAO.createUser(USERNAME, PASSWD);
+        Movie movie = movieDAO.createMovie(MOVIE_NAME, RELEASE_YEAR, CATEGORY);
+        Cinema cinema = cinemaDAO.createCinema(CINEMA_NAME, CITY, PRICE);
 
-        screeningManager.createScreening(TIME, ROOM, PROPERTY, user, movie, cinema);
+        screeningDAO.createScreening(TIME, ROOM, PROPERTY, user, movie, cinema);
 
     }
 }

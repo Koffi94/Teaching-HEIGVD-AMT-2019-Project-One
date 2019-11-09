@@ -1,9 +1,7 @@
 package ch.heigvd.amt.projectone.presentation;
 
 import ch.heigvd.amt.projectone.model.Movie;
-import ch.heigvd.amt.projectone.model.Screening;
-import ch.heigvd.amt.projectone.model.User;
-import ch.heigvd.amt.projectone.services.dao.MovieManagerLocal;
+import ch.heigvd.amt.projectone.services.dao.IMovieDAO;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -11,35 +9,29 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.sql.Date;
 
 public class ManageMovieServlet extends HttpServlet {
     @EJB
-    MovieManagerLocal movieManager;
+    IMovieDAO movieManager;
 
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            String operation = request.getParameter("operation_post");
-            String title = request.getParameter("title");
-            String releaseYear = request.getParameter("release_year");
-            String category = request.getParameter("category");
-            switch (operation) {
-                case "create" :
-                    movieManager.createMovie(title, releaseYear, category);
-                    break;
-                case "update" :
-                    int movieId = Integer.parseInt(request.getParameter("movie_id"));
-                    movieManager.updateMovie(movieId, title, releaseYear, category);
-                    break;
-                default:
-                    break;
-            }
-            response.sendRedirect("./home");
-        } catch(Exception e) {
-            e.printStackTrace();
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String operation = request.getParameter("operation_post");
+        String title = request.getParameter("title");
+        String releaseYear = request.getParameter("release_year");
+        String category = request.getParameter("category");
+        switch (operation) {
+            case "create" :
+                movieManager.createMovie(title, releaseYear, category);
+                break;
+            case "update" :
+                int movieId = Integer.parseInt(request.getParameter("movie_id"));
+                movieManager.updateMovie(movieId, title, releaseYear, category);
+                break;
+            default:
+                break;
         }
+        response.sendRedirect("./home");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

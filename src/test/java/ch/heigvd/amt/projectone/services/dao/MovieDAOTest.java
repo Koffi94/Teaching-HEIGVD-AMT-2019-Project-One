@@ -1,5 +1,5 @@
 package ch.heigvd.amt.projectone.services.dao;
-
+/*
 import ch.heigvd.amt.projectone.model.Movie;
 
 import org.arquillian.container.chameleon.deployment.api.DeploymentParameters;
@@ -21,7 +21,7 @@ import java.sql.SQLException;
 public class MovieDAOTest {
 
     @EJB
-    MovieManagerLocal movieManager;
+    IMovieDAO movieManager;
 
     // Movie parameters
     private static final String MOVIE_NAME = "movieTest";
@@ -83,3 +83,4 @@ public class MovieDAOTest {
     }
 
 }
+        */

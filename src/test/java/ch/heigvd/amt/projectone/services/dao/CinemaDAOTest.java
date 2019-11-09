@@ -20,7 +20,7 @@ import java.sql.SQLException;
 public class CinemaDAOTest {
 
     @EJB
-    CinemaManagerLocal cinemaManager;
+    ICinemaDAO cinemaDAO;
 
     // Cinema parameters
     private static final String CINEMA_NAME = "cineTest";
@@ -30,7 +30,7 @@ public class CinemaDAOTest {
     @Test
     @Transactional(TransactionMode.ROLLBACK)
     public void itShouldBePossibleToCreateACinema() throws DuplicateKeyException, SQLException {
-        Cinema cinema = cinemaManager.createCinema(CINEMA_NAME, CITY, PRICE);
+        Cinema cinema = cinemaDAO.createCinema(CINEMA_NAME, CITY, PRICE);
 
         Assert.assertNotNull(cinema);
     }
@@ -38,9 +38,9 @@ public class CinemaDAOTest {
     @Test
     @Transactional(TransactionMode.ROLLBACK)
     public void itShouldBePossibleToCreateAndRetrieveACinema() throws DuplicateKeyException, SQLException {
-        Cinema cinemaCreated = cinemaManager.createCinema(CINEMA_NAME, CITY, PRICE);
+        Cinema cinemaCreated = cinemaDAO.createCinema(CINEMA_NAME, CITY, PRICE);
 
-        Cinema cinemaRetrieved = cinemaManager.getCinema(cinemaCreated.getCinemaId());
+        Cinema cinemaRetrieved = cinemaDAO.getCinema(cinemaCreated.getCinemaId());
 
         Assert.assertEquals(cinemaCreated, cinemaRetrieved);
     }
@@ -48,7 +48,7 @@ public class CinemaDAOTest {
     @Test
     @Transactional(TransactionMode.ROLLBACK)
     public void itShouldBePossibleToUpdateACinema() throws DuplicateKeyException, SQLException {
-        Cinema cinema = cinemaManager.createCinema(CINEMA_NAME, CITY, PRICE);
+        Cinema cinema = cinemaDAO.createCinema(CINEMA_NAME, CITY, PRICE);
 
         int cinemaId = cinema.getCinemaId();
 
@@ -58,7 +58,7 @@ public class CinemaDAOTest {
 
         String newPrice = "1$";
 
-        cinemaManager.updateCinema(cinemaId, newCinemaName, newCity, newPrice);
+        cinemaDAO.updateCinema(cinemaId, newCinemaName, newCity, newPrice);
 
         Assert.assertEquals(newCinemaName, cinema.getName());
 
@@ -70,11 +70,11 @@ public class CinemaDAOTest {
     @Test
     @Transactional(TransactionMode.ROLLBACK)
     public void itShouldBePossibleToDeleteACinema() throws DuplicateKeyException, SQLException {
-        Cinema cinema = cinemaManager.createCinema(CINEMA_NAME, CITY, PRICE);
+        Cinema cinema = cinemaDAO.createCinema(CINEMA_NAME, CITY, PRICE);
 
-        cinemaManager.deleteCinema(cinema.getCinemaId());
+        cinemaDAO.deleteCinema(cinema.getCinemaId());
 
-        Cinema cinemaSearched = cinemaManager.getCinema(cinema.getCinemaId());
+        Cinema cinemaSearched = cinemaDAO.getCinema(cinema.getCinemaId());
 
         Assert.assertNull(cinemaSearched);
     }

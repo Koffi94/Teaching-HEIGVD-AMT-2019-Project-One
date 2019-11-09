@@ -1,20 +1,17 @@
 package ch.heigvd.amt.projectone.presentation;
 
-import ch.heigvd.amt.projectone.services.dao.CinemaManagerLocal;
-import ch.heigvd.amt.projectone.services.dao.UserManagerLocal;
+import ch.heigvd.amt.projectone.services.dao.IUserDAO;
 
 import javax.ejb.EJB;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.ws.RequestWrapper;
 import java.io.IOException;
 
 public class AuthorizationFilter implements Filter {
 
     @EJB
-    UserManagerLocal userManager;
+    IUserDAO userManager;
 
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
@@ -37,7 +34,7 @@ public class AuthorizationFilter implements Filter {
         }
     }
 
-    public void init(FilterConfig config) throws ServletException {
+    public void init(FilterConfig config) {
     }
 
     public void destroy() {

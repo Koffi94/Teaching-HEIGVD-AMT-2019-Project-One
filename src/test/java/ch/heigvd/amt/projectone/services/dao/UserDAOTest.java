@@ -1,7 +1,7 @@
 package ch.heigvd.amt.projectone.services.dao;
-
+/*
 import ch.heigvd.amt.projectone.model.User;
-import ch.heigvd.amt.projectone.services.dao.UserManagerLocal;
+import ch.heigvd.amt.projectone.services.dao.IUserDAO;
 import org.arquillian.container.chameleon.deployment.api.DeploymentParameters;
 import org.arquillian.container.chameleon.deployment.maven.MavenBuild;
 import org.jboss.arquillian.junit.Arquillian;
@@ -22,7 +22,7 @@ import static org.junit.Assert.*;
 public class UserDAOTest {
 
     @EJB
-    UserManagerLocal userManager;
+    IUserDAO userManager;
 
     // User parameter
     private static final String USERNAME = "testUser";
@@ -77,4 +77,4 @@ public class UserDAOTest {
 
 
     }
-}
+}*/

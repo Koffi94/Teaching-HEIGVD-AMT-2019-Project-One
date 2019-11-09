@@ -10,16 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 /*
  * Fill the database with random data for test purpose
@@ -67,16 +60,16 @@ public class RandomDataServlet extends HttpServlet {
     private Faker faker = new Faker();
 
     @EJB
-    MovieManagerLocal movieManager;
+    IMovieDAO movieManager;
 
     @EJB
-    CinemaManagerLocal cinemaManager;
+    ICinemaDAO cinemaManager;
 
     @EJB
-    UserManagerLocal userManager;
+    IUserDAO userManager;
 
     @EJB
-    ScreeningManagerLocal screeningManager;
+    IScreeningDAO screeningManager;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

@@ -1,8 +1,7 @@
 package ch.heigvd.amt.projectone.presentation;
 
 import ch.heigvd.amt.projectone.model.Cinema;
-import ch.heigvd.amt.projectone.services.dao.CinemaManagerLocal;
-import ch.heigvd.amt.projectone.services.dao.MovieManagerLocal;
+import ch.heigvd.amt.projectone.services.dao.ICinemaDAO;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -14,31 +13,26 @@ import java.io.IOException;
 public class ManageCinemaServlet extends HttpServlet {
 
     @EJB
-    CinemaManagerLocal cinemaManager;
+    ICinemaDAO cinemaManager;
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            String operation = request.getParameter("operation_post");
-            String name = request.getParameter("name");
-            String city = request.getParameter("city");
-            String price = request.getParameter("price");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String operation = request.getParameter("operation_post");
+        String name = request.getParameter("name");
+        String city = request.getParameter("city");
+        String price = request.getParameter("price");
 
-            switch (operation) {
-                case "create" :
-                    cinemaManager.createCinema(name, city, price);
-                    break;
-                case "update" :
-                    int cinemaId = Integer.parseInt(request.getParameter("cinema_id"));
-                    cinemaManager.updateCinema(cinemaId, name, city, price);
-                    break;
-                default:
-                    break;
-            }
-            response.sendRedirect("./home");
-        } catch(Exception e) {
-
+        switch (operation) {
+            case "create" :
+                cinemaManager.createCinema(name, city, price);
+                break;
+            case "update" :
+                int cinemaId = Integer.parseInt(request.getParameter("cinema_id"));
+                cinemaManager.updateCinema(cinemaId, name, city, price);
+                break;
+            default:
+                break;
         }
-
+        response.sendRedirect("./home");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

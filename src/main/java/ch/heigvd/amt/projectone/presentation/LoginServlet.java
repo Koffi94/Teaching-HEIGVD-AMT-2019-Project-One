@@ -1,8 +1,8 @@
 package ch.heigvd.amt.projectone.presentation;
 
 import ch.heigvd.amt.projectone.model.User;
-import ch.heigvd.amt.projectone.services.dao.ScreeningManagerLocal;
-import ch.heigvd.amt.projectone.services.dao.UserManagerLocal;
+import ch.heigvd.amt.projectone.services.dao.IScreeningDAO;
+import ch.heigvd.amt.projectone.services.dao.IUserDAO;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.ejb.EJB;
@@ -18,13 +18,10 @@ import java.io.IOException;
 public class LoginServlet extends javax.servlet.http.HttpServlet {
 
     @EJB
-    private UserManagerLocal userManager;
-
-    @EJB
-    private ScreeningManagerLocal screeningManager;
+    /*private*/ IUserDAO userDAO;
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response)
-            throws javax.servlet.ServletException, IOException{
+            throws javax.servlet.ServletException, IOException {
         HttpSession session = request.getSession();
         if(session.getAttribute("authenticated") == null) {
             request.getRequestDispatcher("./WEB-INF/pages/login.jsp").forward(request, response);
@@ -36,7 +33,7 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        User user = userManager.findUserByName(request.getParameter("username"));
+        User user = userDAO.findUserByName(request.getParameter("username"));
         if (user != null && BCrypt.checkpw(request.getParameter("password"), user.getPassword())) {
             // Get the old session and invalidate
             HttpSession oldSession = request.getSession(false);

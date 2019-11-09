@@ -4,10 +4,11 @@ import ch.heigvd.amt.projectone.model.Cinema;
 import ch.heigvd.amt.projectone.model.Movie;
 import ch.heigvd.amt.projectone.model.Screening;
 import ch.heigvd.amt.projectone.model.User;
-import ch.heigvd.amt.projectone.services.dao.CinemaManagerLocal;
-import ch.heigvd.amt.projectone.services.dao.MovieManagerLocal;
-import ch.heigvd.amt.projectone.services.dao.ScreeningManagerLocal;
-import ch.heigvd.amt.projectone.services.dao.UserManagerLocal;
+import ch.heigvd.amt.projectone.services.dao.ICinemaDAO;
+import ch.heigvd.amt.projectone.services.dao.IMovieDAO;
+import ch.heigvd.amt.projectone.services.dao.IScreeningDAO;
+import ch.heigvd.amt.projectone.services.dao.IUserDAO;
+
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.rmi.ServerException;
 import java.util.List;
 
 public class ManageScreeningServlet extends HttpServlet {
@@ -22,45 +24,41 @@ public class ManageScreeningServlet extends HttpServlet {
     final int PAGE_SIZE = 10;
 
     @EJB
-    ScreeningManagerLocal screeningManager;
+    IScreeningDAO screeningManager;
 
     @EJB
-    UserManagerLocal userManager;
+    IUserDAO userManager;
 
     @EJB
-    MovieManagerLocal movieManager;
+    IMovieDAO movieManager;
 
     @EJB
-    CinemaManagerLocal cinemaManager;
+    ICinemaDAO cinemaManager;
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            String operation = request.getParameter("operation_post");
-            String time = request.getParameter("screening_time");
-            String room = request.getParameter("room");
-            String property = request.getParameter("property");
-            String userId = request.getParameter("user_id");
-            User user = userManager.getUser(Integer.parseInt(userId));
-            String movieTitle = request.getParameter("movie_title");
-            Movie movie = movieManager.findMovieByTitle(movieTitle);
-            String cinemaName = request.getParameter("cinema_name");
-            Cinema cinema = cinemaManager.findCinemaByName(cinemaName);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String operation = request.getParameter("operation_post");
+        String time = request.getParameter("screening_time");
+        String room = request.getParameter("room");
+        String property = request.getParameter("property");
+        String userId = request.getParameter("user_id");
+        User user = userManager.getUser(Integer.parseInt(userId));
+        String movieTitle = request.getParameter("movie_title");
+        Movie movie = movieManager.findMovieByTitle(movieTitle);
+        String cinemaName = request.getParameter("cinema_name");
+        Cinema cinema = cinemaManager.findCinemaByName(cinemaName);
 
-            switch (operation) {
-                case "create" :
-                    screeningManager.createScreening(time, room, property, user, movie, cinema);
-                    break;
-                case "update" :
-                    int screeningId = Integer.parseInt(request.getParameter("screening_id"));
-                    screeningManager.updateScreening(screeningId, time, room, property, user, movie, cinema);
-                    break;
-                default:
-                    break;
-            }
-            response.sendRedirect("./home");
-        } catch(Exception e) {
-            e.printStackTrace();
+        switch (operation) {
+            case "create" :
+                screeningManager.createScreening(time, room, property, user, movie, cinema);
+                break;
+            case "update" :
+                int screeningId = Integer.parseInt(request.getParameter("screening_id"));
+                screeningManager.updateScreening(screeningId, time, room, property, user, movie, cinema);
+                break;
+            default:
+                break;
         }
+        response.sendRedirect("./home");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
