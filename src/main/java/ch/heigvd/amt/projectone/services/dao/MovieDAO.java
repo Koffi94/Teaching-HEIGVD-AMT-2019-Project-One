@@ -33,7 +33,8 @@ public class MovieDAO implements IMovieDAO {
                 pstmt.setString(3, category);
                 pstmt.executeUpdate();
 
-                movie = findMovieByTitle(title);
+                ResultSet rs = pstmt.getGeneratedKeys();
+                movie = getMovie(rs.getInt(1));
 
                 connection.close();
             } catch (SQLException e) {

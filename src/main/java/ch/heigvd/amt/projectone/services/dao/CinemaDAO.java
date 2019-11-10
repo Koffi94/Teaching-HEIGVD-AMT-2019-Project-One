@@ -31,9 +31,10 @@ public class CinemaDAO implements ICinemaDAO {
                 pstmt.setString(2, city);
                 pstmt.setString(3, price);
                 pstmt.executeUpdate();
+                ResultSet rs = pstmt.getGeneratedKeys();
+                cinema = getCinema(rs.getInt(1));
                 connection.close();
 
-                cinema = findCinemaByName(name);
             } catch (SQLException e) {
                 Logger.getLogger(ScreeningDAO.class.getName()).log(Level.SEVERE, null, e);
             }
@@ -65,7 +66,6 @@ public class CinemaDAO implements ICinemaDAO {
         } catch(SQLException e) {
             Logger.getLogger(ScreeningDAO.class.getName()).log(Level.SEVERE, null, e);
         }
-
         return cinema;
     }
 

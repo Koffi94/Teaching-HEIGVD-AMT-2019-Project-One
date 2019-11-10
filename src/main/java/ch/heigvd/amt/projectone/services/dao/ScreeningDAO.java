@@ -32,7 +32,8 @@ public class ScreeningDAO implements IScreeningDAO {
     private ICinemaDAO cinemaManager;
 
     @Override
-    public void createScreening(String time, String room, String property, User user, Movie movie, Cinema cinema) {
+    public Screening createScreening(String time, String room, String property, User user, Movie movie, Cinema cinema) {
+        Screening screening = null;
         try {
             Connection connection = dataSource.getConnection();
 
@@ -44,11 +45,13 @@ public class ScreeningDAO implements IScreeningDAO {
             pstmt.setInt(5, movie.getMovieId());
             pstmt.setInt(6, cinema.getCinemaId());
             pstmt.executeUpdate();
-
+            ResultSet rs = pstmt.getGeneratedKeys();
+            screening = getScreening(rs.getInt(1));
             connection.close();
         } catch(SQLException e) {
             Logger.getLogger(ScreeningDAO.class.getName()).log(Level.SEVERE, null, e);
         }
+        return screening;
     }
 
     @Override

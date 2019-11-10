@@ -30,8 +30,8 @@ public class UserDAO implements IUserDAO {
                 pstmt.setString(1, username);
                 pstmt.setString(2, BCrypt.hashpw(password, BCrypt.gensalt()));
                 pstmt.executeUpdate();
-
-                user = findUserByName(username);
+                ResultSet rs = pstmt.getGeneratedKeys();
+                user = getUser(rs.getInt(1));
                 connection.close();
             } catch (SQLException e) {
                 Logger.getLogger(ScreeningDAO.class.getName()).log(Level.SEVERE, null, e);
