@@ -5,10 +5,7 @@ import ch.heigvd.amt.projectone.model.Movie;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,13 +24,14 @@ public class MovieDAO implements IMovieDAO {
                 Connection connection = dataSource.getConnection();
 
                 // Check if the movie doesn't exist yet
-                PreparedStatement pstmt = connection.prepareStatement("INSERT INTO movie(title, release_year, category) VALUES (?, ?, ?)");
+                PreparedStatement pstmt = connection.prepareStatement("INSERT INTO movie(title, release_year, category) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
                 pstmt.setString(1, title);
                 pstmt.setString(2, releaseYear);
                 pstmt.setString(3, category);
                 pstmt.executeUpdate();
 
                 ResultSet rs = pstmt.getGeneratedKeys();
+                rs.next();
                 movie = getMovie(rs.getInt(1));
 
                 connection.close();

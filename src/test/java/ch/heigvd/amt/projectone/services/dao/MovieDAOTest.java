@@ -11,9 +11,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.ejb.DuplicateKeyException;
 import javax.ejb.EJB;
-import java.sql.SQLException;
 
 @RunWith(Arquillian.class)
 @MavenBuild
@@ -73,7 +71,7 @@ public class MovieDAOTest {
 
     @Test
     @Transactional(TransactionMode.ROLLBACK)
-    public void itShouldBePossibleToDeleteAMovie() throws DuplicateKeyException, SQLException {
+    public void itShouldBePossibleToDeleteAMovie() {
         Movie movie = movieManager.createMovie(MOVIE_NAME, RELEASE_YEAR, CATEGORY);
 
         movieManager.deleteMovie(movie.getMovieId());
