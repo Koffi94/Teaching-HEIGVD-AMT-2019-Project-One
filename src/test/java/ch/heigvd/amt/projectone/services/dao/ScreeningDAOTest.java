@@ -10,7 +10,6 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -56,12 +55,9 @@ public class ScreeningDAOTest {
         Movie movie = movieDAO.createMovie(MOVIE_NAME, RELEASE_YEAR, CATEGORY);
         Cinema cinema = cinemaDAO.createCinema(CINEMA_NAME, CITY, PRICE);
 
-        screeningDAO.createScreening(TIME, ROOM, PROPERTY, user, movie, cinema);
+        Screening screening = screeningDAO.createScreening(TIME, ROOM, PROPERTY, user, movie, cinema);
 
-        //TODO retrieve screening id
-        //int screeningID = 1;
-
-        Assert.assertNotNull(null);
+        Assert.assertNotNull(screening);
     }
 
     @Test
@@ -71,8 +67,11 @@ public class ScreeningDAOTest {
         Movie movie = movieDAO.createMovie(MOVIE_NAME, RELEASE_YEAR, CATEGORY);
         Cinema cinema = cinemaDAO.createCinema(CINEMA_NAME, CITY, PRICE);
 
-        screeningDAO.createScreening(TIME, ROOM, PROPERTY, user, movie, cinema);
+        Screening screeningCreated = screeningDAO.createScreening(TIME, ROOM, PROPERTY, user, movie, cinema);
 
+        Screening screeningRetrieved = screeningDAO.getScreening(screeningCreated.getScreeningId());
+
+        Assert.assertEquals(screeningCreated, screeningRetrieved);
     }
 
     @Test
@@ -82,8 +81,19 @@ public class ScreeningDAOTest {
         Movie movie = movieDAO.createMovie(MOVIE_NAME, RELEASE_YEAR, CATEGORY);
         Cinema cinema = cinemaDAO.createCinema(CINEMA_NAME, CITY, PRICE);
 
-        screeningDAO.createScreening(TIME, ROOM, PROPERTY, user, movie, cinema);
+        String newTime = "13:45";
+        String newRoom = "F404";
+        String newProperty = "VR";
 
+        Screening screening = screeningDAO.createScreening(TIME, ROOM, PROPERTY, user, movie, cinema);
+
+        screeningDAO.updateScreening(screening.getScreeningId(), newTime, newRoom, newProperty,user, movie, cinema);
+
+        Screening screeningUpdated = screeningDAO.getScreening(screening.getScreeningId());
+
+        Assert.assertEquals(newTime, screeningUpdated.getTime());
+        Assert.assertEquals(newRoom, screeningUpdated.getRoom());
+        Assert.assertEquals(newProperty, screeningUpdated.getProperty());
     }
 
     @Test
@@ -93,7 +103,13 @@ public class ScreeningDAOTest {
         Movie movie = movieDAO.createMovie(MOVIE_NAME, RELEASE_YEAR, CATEGORY);
         Cinema cinema = cinemaDAO.createCinema(CINEMA_NAME, CITY, PRICE);
 
-        screeningDAO.createScreening(TIME, ROOM, PROPERTY, user, movie, cinema);
+        Screening screening = screeningDAO.createScreening(TIME, ROOM, PROPERTY, user, movie, cinema);
+
+        screeningDAO.deleteScreening(screening.getScreeningId());
+
+        Screening screeningFound = screeningDAO.getScreening(screening.getScreeningId());
+
+        Assert.assertNull(screeningFound);
 
     }
 }

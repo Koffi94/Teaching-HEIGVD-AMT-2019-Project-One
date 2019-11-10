@@ -37,7 +37,7 @@ public class ScreeningDAO implements IScreeningDAO {
         try {
             Connection connection = dataSource.getConnection();
 
-            PreparedStatement pstmt = connection.prepareStatement("INSERT INTO screening(time, room, property, user_id, movie_id, cinema_id) VALUES (?, ?, ?, ?, ?, ?)");
+            PreparedStatement pstmt = connection.prepareStatement("INSERT INTO screening(time, room, property, user_id, movie_id, cinema_id) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, time);
             pstmt.setString(2, room);
             pstmt.setString(3, property);
@@ -46,6 +46,7 @@ public class ScreeningDAO implements IScreeningDAO {
             pstmt.setInt(6, cinema.getCinemaId());
             pstmt.executeUpdate();
             ResultSet rs = pstmt.getGeneratedKeys();
+            rs.next();
             screening = getScreening(rs.getInt(1));
             connection.close();
         } catch(SQLException e) {
