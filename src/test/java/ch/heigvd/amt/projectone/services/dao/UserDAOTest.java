@@ -66,17 +66,15 @@ public class UserDAOTest {
 
         String newName = "newtestName";
         String newPasswd = "newTestpw";
-        //int userID = user.getUserId();
-
-        assertNotNull(user.getUserId());
 
         userManager.updateUser(user.getUserId(), newName, newPasswd);
 
+        User updatedUser = userManager.getUser(user.getUserId());
+
         // TODO Find why update is not working
-        assertTrue(BCrypt.checkpw(newPasswd, user.getPassword()));
+        assertTrue(BCrypt.checkpw(newPasswd, updatedUser.getPassword()));
 
-        assertEquals(newName, user.getUsername());
-
+        assertEquals(newName, updatedUser.getUsername());
 
     }
 }

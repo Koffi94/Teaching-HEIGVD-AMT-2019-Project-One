@@ -6,10 +6,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,11 +23,12 @@ public class UserDAO implements IUserDAO {
         if (findUserByName(username) == null) {
             try {
                 Connection connection = dataSource.getConnection();
-                PreparedStatement pstmt = connection.prepareStatement("INSERT INTO user(username, password) VALUES (?, ?)");
+                PreparedStatement pstmt = connection.prepareStatement("INSERT INTO user(username, password) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
                 pstmt.setString(1, username);
                 pstmt.setString(2, BCrypt.hashpw(password, BCrypt.gensalt()));
                 pstmt.executeUpdate();
                 ResultSet rs = pstmt.getGeneratedKeys();
+                rs.next();
                 user = getUser(rs.getInt(1));
                 connection.close();
             } catch (SQLException e) {
@@ -93,7 +91,7 @@ public class UserDAO implements IUserDAO {
                 Connection connection = dataSource.getConnection();
                 PreparedStatement pstmt = connection.prepareStatement("UPDATE user SET username = ?, password = ? WHERE user_id = ?");
                 pstmt.setString(1, username);
-                pstmt.setString(2, password);
+                pstmt.setString(2, BCrypt.hashpw(password, BCrypt.gensalt()));
                 pstmt.setInt(3, userId);
                 pstmt.executeUpdate();
                 connection.close();
