@@ -61,13 +61,13 @@ public class MovieDAOTest {
 
         movieManager.updateMovie(movieId, newTitle, newReleaseYear, newCategory);
 
-        //TODO Find why movie is not updated
+        Movie updatedMovie = movieManager.getMovie(movieId);
 
-        Assert.assertEquals(newTitle, movie.getTitle());
+        Assert.assertEquals(newTitle, updatedMovie.getTitle());
 
-        Assert.assertEquals(newReleaseYear, movie.getReleaseYear());
+        Assert.assertEquals(newReleaseYear, updatedMovie.getReleaseYear());
 
-        Assert.assertEquals(newCategory, movie.getCategory());
+        Assert.assertEquals(newCategory, updatedMovie.getCategory());
 
     }
 

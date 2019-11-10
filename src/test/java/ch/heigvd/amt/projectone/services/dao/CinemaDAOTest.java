@@ -29,7 +29,7 @@ public class CinemaDAOTest {
 
     @Test
     @Transactional(TransactionMode.ROLLBACK)
-    public void itShouldBePossibleToCreateACinema() throws DuplicateKeyException, SQLException {
+    public void itShouldBePossibleToCreateACinema() {
         Cinema cinema = cinemaDAO.createCinema(CINEMA_NAME, CITY, PRICE);
 
         Assert.assertNotNull(cinema);
@@ -37,7 +37,7 @@ public class CinemaDAOTest {
 
     @Test
     @Transactional(TransactionMode.ROLLBACK)
-    public void itShouldBePossibleToCreateAndRetrieveACinema() throws DuplicateKeyException, SQLException {
+    public void itShouldBePossibleToCreateAndRetrieveACinema() {
         Cinema cinemaCreated = cinemaDAO.createCinema(CINEMA_NAME, CITY, PRICE);
 
         Cinema cinemaRetrieved = cinemaDAO.getCinema(cinemaCreated.getCinemaId());
@@ -47,7 +47,7 @@ public class CinemaDAOTest {
 
     @Test
     @Transactional(TransactionMode.ROLLBACK)
-    public void itShouldBePossibleToUpdateACinema() throws DuplicateKeyException, SQLException {
+    public void itShouldBePossibleToUpdateACinema() {
         Cinema cinema = cinemaDAO.createCinema(CINEMA_NAME, CITY, PRICE);
 
         int cinemaId = cinema.getCinemaId();
@@ -60,17 +60,18 @@ public class CinemaDAOTest {
 
         cinemaDAO.updateCinema(cinemaId, newCinemaName, newCity, newPrice);
 
-        //TODO Find why update does not work
-        Assert.assertEquals(newCinemaName, cinema.getName());
+        Cinema updatedCinema = cinemaDAO.getCinema(cinemaId);
 
-        Assert.assertEquals(newCity, cinema.getCity());
+        Assert.assertEquals(newCinemaName, updatedCinema.getName());
 
-        Assert.assertEquals(newPrice, cinema.getPrice());
+        Assert.assertEquals(newCity, updatedCinema.getCity());
+
+        Assert.assertEquals(newPrice, updatedCinema.getPrice());
     }
 
     @Test
     @Transactional(TransactionMode.ROLLBACK)
-    public void itShouldBePossibleToDeleteACinema() throws DuplicateKeyException, SQLException {
+    public void itShouldBePossibleToDeleteACinema() {
         Cinema cinema = cinemaDAO.createCinema(CINEMA_NAME, CITY, PRICE);
 
         cinemaDAO.deleteCinema(cinema.getCinemaId());
