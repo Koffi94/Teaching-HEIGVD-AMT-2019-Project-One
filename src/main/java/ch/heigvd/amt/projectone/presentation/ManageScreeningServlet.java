@@ -24,16 +24,16 @@ public class ManageScreeningServlet extends HttpServlet {
     final int PAGE_SIZE = 10;
 
     @EJB
-    IScreeningDAO screeningManager;
+    IScreeningDAO screeningDAO;
 
     @EJB
-    IUserDAO userManager;
+    IUserDAO userDAO;
 
     @EJB
-    IMovieDAO movieManager;
+    IMovieDAO movieDAO;
 
     @EJB
-    ICinemaDAO cinemaManager;
+    ICinemaDAO cinemaDAO;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String operation = request.getParameter("operation_post");
@@ -41,19 +41,19 @@ public class ManageScreeningServlet extends HttpServlet {
         String room = request.getParameter("room");
         String property = request.getParameter("property");
         String userId = request.getParameter("user_id");
-        User user = userManager.getUser(Integer.parseInt(userId));
+        User user = userDAO.getUser(Integer.parseInt(userId));
         String movieTitle = request.getParameter("movie_title");
-        Movie movie = movieManager.findMovieByTitle(movieTitle);
+        Movie movie = movieDAO.findMovieByTitle(movieTitle);
         String cinemaName = request.getParameter("cinema_name");
-        Cinema cinema = cinemaManager.findCinemaByName(cinemaName);
+        Cinema cinema = cinemaDAO.findCinemaByName(cinemaName);
 
         switch (operation) {
             case "create" :
-                screeningManager.createScreening(time, room, property, user, movie, cinema);
+                screeningDAO.createScreening(time, room, property, user, movie, cinema);
                 break;
             case "update" :
                 int screeningId = Integer.parseInt(request.getParameter("screening_id"));
-                screeningManager.updateScreening(screeningId, time, room, property, user, movie, cinema);
+                screeningDAO.updateScreening(screeningId, time, room, property, user, movie, cinema);
                 break;
             default:
                 break;
@@ -64,11 +64,11 @@ public class ManageScreeningServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String operation = request.getParameter("operation_get");
-        User user = userManager.getUser((Integer) session.getAttribute("user_id"));
-        int lastPage = (int) Math.ceil(screeningManager.getScreeningsQuantity(user) / (double)PAGE_SIZE);
+        User user = userDAO.getUser((Integer) session.getAttribute("user_id"));
+        int lastPage = (int) Math.ceil(screeningDAO.getScreeningsQuantity(user) / (double)PAGE_SIZE);
 
         if(operation == null) {
-            List<Screening> screenings = screeningManager.getScreeningsPage(user, PAGE_SIZE, 0);
+            List<Screening> screenings = screeningDAO.getScreeningsPage(user, PAGE_SIZE, 0);
             request.setAttribute("screenings", screenings);
             request.setAttribute("user", user);
             request.setAttribute("current_page", 1);
@@ -79,19 +79,19 @@ public class ManageScreeningServlet extends HttpServlet {
             switch (operation) {
                 case "detail":
                     screeningId = Integer.parseInt(request.getParameter("screening_id"));
-                    Screening screening = screeningManager.getScreening(screeningId);
+                    Screening screening = screeningDAO.getScreening(screeningId);
                     System.out.println(screening.getMovie().getTitle());
                     request.setAttribute("screening", screening);
                     request.getRequestDispatcher("./WEB-INF/pages/detailScreening.jsp").forward(request, response);
                     break;
                 case "delete":
                     screeningId = Integer.parseInt(request.getParameter("screening_id"));
-                    screeningManager.deleteScreening(screeningId);
+                    screeningDAO.deleteScreening(screeningId);
                     response.sendRedirect("./home");
                     break;
                 case "page":
                     int currentPage = Integer.parseInt(request.getParameter("current_page"));
-                    List<Screening> screenings = screeningManager.getScreeningsPage(user, PAGE_SIZE, (currentPage-1)*PAGE_SIZE);
+                    List<Screening> screenings = screeningDAO.getScreeningsPage(user, PAGE_SIZE, (currentPage-1)*PAGE_SIZE);
                     request.setAttribute("screenings", screenings);
                     request.setAttribute("user", user);
                     request.setAttribute("current_page", currentPage);

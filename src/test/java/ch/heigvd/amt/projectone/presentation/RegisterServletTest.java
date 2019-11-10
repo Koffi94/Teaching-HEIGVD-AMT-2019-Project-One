@@ -57,7 +57,7 @@ public class RegisterServletTest {
         String password = "password";
 
         @Test
-        void itShouldRedirectOnLoginPage() throws ServletException, IOException {
+        void itShouldRedirectOnLoginPage() throws IOException {
             when(request.getParameter("username")).thenReturn(username);
             when(request.getParameter("password")).thenReturn(password);
             when(request.getParameter("repassword")).thenReturn(password);

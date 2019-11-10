@@ -2,6 +2,7 @@ package ch.heigvd.amt.projectone.presentation;
 
 import ch.heigvd.amt.projectone.model.User;
 import ch.heigvd.amt.projectone.services.dao.IUserDAO;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -82,44 +83,44 @@ public class LoginServletTest {
 
         @BeforeEach
         public void setup() {
-
-        }
-
-        @Test
-        void itShouldRedirectOnLoginPageIfTheUserDoesntExistInTheDB() throws ServletException, IOException {
-            when(request.getRequestDispatcher("./WEB-INF/pages/login.jsp")).thenReturn(requestDispatcher);
-
             when(request.getParameter("username")).thenReturn(username);
-            when(userDAO.findUserByName(username)).thenReturn(null);
-
-            servlet.doPost(request, response);
-            verify(request, times(1)).getRequestDispatcher("./WEB-INF/pages/login.jsp");
-            verify(requestDispatcher, times(1)).forward(request, response);
-
         }
 
-        @Test
-        void itShouldRedirectOnLoginPageIfThePasswordIsWrong() throws ServletException, IOException {
-            when(request.getRequestDispatcher("./WEB-INF/pages/login.jsp")).thenReturn(requestDispatcher);
+        @Nested
+        class wrongCredsTest {
 
-            when(request.getParameter("username")).thenReturn(username);
-            when(userDAO.findUserByName(username)).thenReturn(user);
+            @BeforeEach
+            public void setup() {
+                when(request.getRequestDispatcher("./WEB-INF/pages/login.jsp")).thenReturn(requestDispatcher);
+            }
 
-            when(request.getParameter("password")).thenReturn(badPswd);
-            when(user.getPassword()).thenReturn(BCrypt.hashpw(goodPswd, BCrypt.gensalt()));
+            @Test
+            void itShouldRedirectOnLoginPageIfTheUserDoesntExistInTheDB() throws ServletException, IOException {
+                when(userDAO.findUserByName(username)).thenReturn(null);
+                servlet.doPost(request, response);
+            }
 
-            servlet.doPost(request, response);
-            verify(request, times(1)).getRequestDispatcher("./WEB-INF/pages/login.jsp");
-            verify(requestDispatcher, times(1)).forward(request, response);
+            @Test
+            void itShouldRedirectOnLoginPageIfThePasswordIsWrong() throws ServletException, IOException {
+                when(userDAO.findUserByName(username)).thenReturn(user);
+                when(request.getParameter("password")).thenReturn(badPswd);
+                when(user.getPassword()).thenReturn(BCrypt.hashpw(goodPswd, BCrypt.gensalt()));
+                servlet.doPost(request, response);
+            }
 
+            @AfterEach
+            void tearDown() throws ServletException, IOException {
+                verify(request, times(1)).getRequestDispatcher("./WEB-INF/pages/login.jsp");
+                verify(requestDispatcher, times(1)).forward(request, response);
+            }
         }
+
 
         @Test
         void itShouldRedirectOnHomePageIfUsernameAndPasswordAreOK() throws ServletException, IOException {
             when(request.getSession(false)).thenReturn(oldSession);
             when(request.getSession(true)).thenReturn(newSession);
 
-            when(request.getParameter("username")).thenReturn(username);
             when(userDAO.findUserByName(username)).thenReturn(user);
 
             when(request.getParameter("password")).thenReturn(goodPswd);
