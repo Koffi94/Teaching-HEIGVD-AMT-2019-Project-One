@@ -5,10 +5,7 @@ import ch.heigvd.amt.projectone.model.Cinema;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,12 +23,13 @@ public class CinemaDAO implements ICinemaDAO {
             try {
                 Connection connection = dataSource.getConnection();
 
-                PreparedStatement pstmt = connection.prepareStatement("INSERT INTO cinema(name, city, price) VALUES (?, ?, ?)");
+                PreparedStatement pstmt = connection.prepareStatement("INSERT INTO cinema(name, city, price) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
                 pstmt.setString(1, name);
                 pstmt.setString(2, city);
                 pstmt.setString(3, price);
                 pstmt.executeUpdate();
                 ResultSet rs = pstmt.getGeneratedKeys();
+                rs.next();
                 cinema = getCinema(rs.getInt(1));
                 connection.close();
 

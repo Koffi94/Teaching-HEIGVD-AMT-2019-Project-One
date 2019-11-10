@@ -10,9 +10,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.ejb.DuplicateKeyException;
 import javax.ejb.EJB;
-import java.sql.SQLException;
 
 @RunWith(Arquillian.class)
 @MavenBuild
