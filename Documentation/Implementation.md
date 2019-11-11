@@ -27,4 +27,4 @@ movies
  ![UML diagram](./img/SchemaUML.png)
 
 **Mockup**
-![web application mockup](/img/Mockup-ProjectOne.png)
+![web application mockup](./img/Mockup-ProjectOne.png)
