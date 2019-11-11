@@ -2,6 +2,7 @@
 
 docker-compose down
 mvn clean install -DskipTests
+cp target/project-one.war Docker-Images/Payara-image/
 docker-compose up -d --build
 sleep 30
 docker exec projectone_payara_1 /opt/payara/appserver/bin/asadmin --user admin --passwordfile /opt/payara/passwordFile deploy /opt/payara/scripts/project-one.war
