@@ -18,7 +18,41 @@ When testing the `updateUser()` method we realized that, contrary to `createUser
 
 The servlet were tested with Mockito. All the objects marked `@EJB` were made package protected to allow Mockito to work correctly.
 
-Mockito mocks the DAO classes in order to test the domain objects, which are `Cinema`, `Movie`, `Screening` and `User`.
+Mockito mocks the DAO classes in order to test the domain objects, which are `Cinema`, `Movie`, `Screening` and `User`. 
+
+Here is an example of Mockito test:
+
+```java
+@ExtendWith(MockitoExtension.class)
+public class RegisterServletTest {
+
+    @Mock
+    HttpServletRequest request;
+
+    @Mock
+    HttpServletResponse response;
+
+    ...
+    
+    @BeforeEach
+    public void setup() {
+        servlet = new RegisterServlet();
+        servlet.userDAO = userDAO;
+    }
+
+    @Nested
+    class doGetTest {
+        @Test
+        void itShouldRedirectOnRegisterPage() throws ServletException, IOException {
+            when(request.getRequestDispatcher("./WEB-INF/pages/register.jsp")).thenReturn(requestDispatcher);
+            servlet.doGet(request, response);
+            verify(request, times(1)).getRequestDispatcher("./WEB-INF/pages/register.jsp");
+            verify(requestDispatcher, times(1)).forward(request, response);
+        }
+    ...
+```
+
+
 
 ## Performance and Load Testing
 
