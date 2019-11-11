@@ -6,8 +6,6 @@
 
 This application allow users to log the movies they have seen. They can specify the cinema in which they have seen each one of them, along with the screening they attended and the room in which it took place.<br/>
 
-Diagram UML
- ![](./img/SchemaUML.png)
 
 ## Functionnalities
 
@@ -21,3 +19,12 @@ Each user can add/edit/delete screenings, movies or cinemas.
 
 A pagging system is implemented with a fix value of 10 entries per page that can be change through the global variable `PAGE_SIZE` in the code.
 movies
+
+
+## Implementation
+
+**UML diagram**
+ ![UML diagram](./img/SchemaUML.png)
+
+**Mockup**
+![web application mockup](./img/Mockup-ProjectOne.png)
