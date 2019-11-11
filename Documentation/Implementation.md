@@ -1,6 +1,6 @@
 # AMT Project One - Functionnalities and implementation
 
-**Authors: Nathanaël Mizutani, Olivier Koffi**
+**Authors: Nathanaël Mizutani [NatMiz](https://github.com/NatMiz), Olivier Koffi [Koffi94](https://github.com/Koffi94)**
 
 ## Business model
 
