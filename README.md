@@ -26,7 +26,9 @@ Install docker for [Windows 10](https://runnable.com/docker/install-docker-on-wi
 
 To get the system running, in a terminal :
 1. Run `generateSQL.sh`; it takes a little less than a minute to generate approximatly 2 millions data.
-2. Run `docker-compose up --build`; since there is a lot of data to upload the MySQL container takes a little more than 3 minutes to get up and running.
+2. Run `runAppWithoutTests.sh` to launch the application *without running the tests*; since there is a lot of data to upload the MySQL container takes a little more than 3 minutes to get up and running.
+
+To stop the application, run `stopApp.sh`.
 
 ## Tests
 
