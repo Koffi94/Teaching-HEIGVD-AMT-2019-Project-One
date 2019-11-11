@@ -8,6 +8,10 @@ The specifications for the *Project One* can be found [here](Specifications.md).
 
 The main objective of this project is to apply the patterns and techniques presented during the lectures, and to create a simple multi-tiered application in Java EE.
 
+## Implementation
+
+Details about the implementation of the project can be found [here](Documentation/Implementation.md).
+
 ## Prerequisites
 
 You need these programs installed on your system:
