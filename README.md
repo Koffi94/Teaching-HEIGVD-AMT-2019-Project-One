@@ -54,8 +54,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) f
 ## Acknowledgment
 
 We would like to thanks: 
-* the coffee for helping us through the development
+* The coffee for helping us through the development
 * Stackoverflow
 * Maven documentation
 * Oracle Documentation
 * Our collegues for their advices
+* Olivier Liechti and Adrien Allemand for their help
