@@ -1,5 +1,6 @@
 # AMT Project One - Tests
 **Authors: Nathanaël Mizutani [NatMiz](https://github.com/NatMiz), Olivier Koffi [Koffi94](https://github.com/Koffi94)**
+
 ---
 
 To run the tests, run the `runTests.sh` script.
