@@ -21,8 +21,15 @@ import java.util.logging.Logger;
 public class LoginServlet extends javax.servlet.http.HttpServlet {
 
     @EJB
-    /*private*/ IUserDAO userDAO;
+    /*private*/ IUserDAO userDAO; // private is commented to pass integration tests
 
+    /**
+     * This method is called when there is a GET request on /login
+     * @param request The request object
+     * @param response The response object
+     * @throws javax.servlet.ServletException
+     * @throws IOException
+     */
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response)
             throws javax.servlet.ServletException, IOException {
         HttpSession session = request.getSession();
@@ -33,13 +40,20 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
         }
     }
 
+    /**
+     * This method is called when there is a POST request on /login
+     * @param request The request object
+     * @param response The response object
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         User user = userDAO.findUserByName(request.getParameter("username"));
-        long t1 = System.currentTimeMillis();
+
+        // If the user exists in the DB and password is correct then a session token is created for this user else go back to login page
         if (user != null && BCrypt.checkpw(request.getParameter("password"), user.getPassword())) {
-            Logger.getLogger(ScreeningDAO.class.getName()).log(Level.SEVERE, "t6: " + (System.currentTimeMillis() - t1));
             // Get the old session and invalidate
             HttpSession oldSession = request.getSession(false);
             if (oldSession != null) {

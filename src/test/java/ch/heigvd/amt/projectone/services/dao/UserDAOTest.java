@@ -1,6 +1,5 @@
 package ch.heigvd.amt.projectone.services.dao;
 import ch.heigvd.amt.projectone.model.User;
-import ch.heigvd.amt.projectone.services.dao.IUserDAO;
 import org.arquillian.container.chameleon.deployment.api.DeploymentParameters;
 import org.arquillian.container.chameleon.deployment.maven.MavenBuild;
 import org.jboss.arquillian.junit.Arquillian;
@@ -9,13 +8,15 @@ import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mindrot.jbcrypt.BCrypt;
-
 import javax.ejb.DuplicateKeyException;
 import javax.ejb.EJB;
 import java.sql.SQLException;
-
 import static org.junit.Assert.*;
 
+
+/**
+ * This class is used to test the UserDAO methods
+ */
 @RunWith(Arquillian.class)
 @MavenBuild
 @DeploymentParameters(testable = true)

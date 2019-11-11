@@ -8,6 +8,9 @@ import lombok.Getter;
 @EqualsAndHashCode
 @Getter
 
+/**
+ * This is the domain object class for the Cinema table in the DB
+ */
 public class Cinema {
 
     private int cinemaId;

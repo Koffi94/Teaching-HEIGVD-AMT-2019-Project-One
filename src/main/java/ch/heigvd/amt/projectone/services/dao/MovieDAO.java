@@ -1,7 +1,6 @@
 package ch.heigvd.amt.projectone.services.dao;
 
 import ch.heigvd.amt.projectone.model.Movie;
-
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.sql.DataSource;

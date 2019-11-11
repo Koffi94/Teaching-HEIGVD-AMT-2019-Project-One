@@ -27,6 +27,10 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
+
+/**
+ * This class is used to test the ManageScreeningServlet methods
+ */
 @ExtendWith(MockitoExtension.class)
 public class ManageScreeningServletTest {
 

@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import static org.mockito.Mockito.*;
 
+/**
+ * This class is used to test the RegisterServlet methods
+ */
 @ExtendWith(MockitoExtension.class)
 public class RegisterServletTest {
 

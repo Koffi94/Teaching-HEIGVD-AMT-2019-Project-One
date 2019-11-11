@@ -2,7 +2,6 @@ package ch.heigvd.amt.projectone.presentation;
 
 import ch.heigvd.amt.projectone.services.dao.*;
 import com.github.javafaker.Faker;
-
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -14,8 +13,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-/*
- * Fill the database with random data for test purpose
+/**
+ * This servlet is used to fill the database with random data for test purpose
  */
 public class RandomDataServlet extends HttpServlet {
 
@@ -71,22 +70,21 @@ public class RandomDataServlet extends HttpServlet {
     @EJB
     IScreeningDAO screeningManager;
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    /**
+     * This method is called when there is a GET request on /generateRandomData
+     * @param request The request object
+     * @param response The response object
+     * @throws IOException
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         generateRandomData();
         response.sendRedirect("./login");
     }
 
+    /**
+     * This method is used to generate data and populate the DB
+     */
     public void generateRandomData() {
-
-        /*for(int j = 0; j < CREATE; j++){
-            users.add(faker.name().firstName() + j);
-            movies.add(faker.book().title() + j);
-            cinemas.add(faker.lorem().word() + j);
-        }*/
         populateTables(CREATE);
 
         System.out.println("MOVIES:\n" + movies);
@@ -110,11 +108,9 @@ public class RandomDataServlet extends HttpServlet {
         }
     }
 
-    public void writeRandomDataToFile(){
-        populateTables(CREATE);
-
-    }
-
+    /**
+     * This method is used to populate domain objects
+     */
     private void populateTables(int tableSize){
         for(int j = 0; j < tableSize; j++){
             users.add(faker.name().firstName() + j);

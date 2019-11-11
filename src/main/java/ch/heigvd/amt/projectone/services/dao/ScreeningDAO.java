@@ -4,12 +4,10 @@ import ch.heigvd.amt.projectone.model.Cinema;
 import ch.heigvd.amt.projectone.model.Movie;
 import ch.heigvd.amt.projectone.model.Screening;
 import ch.heigvd.amt.projectone.model.User;
-
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.sql.DataSource;
-
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;

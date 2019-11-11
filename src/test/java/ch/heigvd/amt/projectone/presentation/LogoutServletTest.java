@@ -13,6 +13,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import static org.mockito.Mockito.*;
 
+/**
+ * This class is used to test the LogoutServlet methods
+ */
 @ExtendWith(MockitoExtension.class)
 public class LogoutServletTest {
 

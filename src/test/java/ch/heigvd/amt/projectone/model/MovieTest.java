@@ -2,10 +2,12 @@ package ch.heigvd.amt.projectone.model;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+/**
+ * This class is used to test the Movie methods
+ */
 public class MovieTest {
 
     @Test

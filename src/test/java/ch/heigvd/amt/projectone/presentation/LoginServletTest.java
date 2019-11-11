@@ -20,6 +20,10 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.io.IOException;
 import static org.mockito.Mockito.*;
 
+
+/**
+ * This class is used to test the LoginServlet methods
+ */
 @ExtendWith(MockitoExtension.class)
 public class LoginServletTest {
 

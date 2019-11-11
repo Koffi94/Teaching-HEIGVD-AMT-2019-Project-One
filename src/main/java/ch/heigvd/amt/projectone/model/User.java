@@ -8,6 +8,9 @@ import lombok.Getter;
 @EqualsAndHashCode
 @Getter
 
+/**
+ * This is the domain object class for the User table in the DB
+ */
 public class User {
 
     private int userId;

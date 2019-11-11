@@ -8,7 +8,6 @@ import ch.heigvd.amt.projectone.services.dao.ICinemaDAO;
 import ch.heigvd.amt.projectone.services.dao.IMovieDAO;
 import ch.heigvd.amt.projectone.services.dao.IScreeningDAO;
 import ch.heigvd.amt.projectone.services.dao.IUserDAO;
-
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.rmi.ServerException;
 import java.util.List;
 
 public class ManageScreeningServlet extends HttpServlet {
@@ -35,6 +33,13 @@ public class ManageScreeningServlet extends HttpServlet {
     @EJB
     ICinemaDAO cinemaDAO;
 
+    /**
+     * This method is called when there is a POST request on /manageScreening
+     * @param request The request object
+     * @param response The response object
+     * @throws IOException
+     * @throws ServletException
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String operation = request.getParameter("operation_post");
         String time = request.getParameter("screening_time");
@@ -61,12 +66,21 @@ public class ManageScreeningServlet extends HttpServlet {
         response.sendRedirect("./home");
     }
 
+    /**
+     * This method is called when there is a GET request on /manageScreening
+     * @param request The request object
+     * @param response The response object
+     * @throws IOException
+     * @throws ServletException
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String operation = request.getParameter("operation_get");
         User user = userDAO.getUser((Integer) session.getAttribute("user_id"));
         int lastPage = (int) Math.ceil(screeningDAO.getScreeningsQuantity(user) / (double)PAGE_SIZE);
 
+        // If the operation argument is empty that means that is the first connection on the site
+        // or a click to go to the main page so it display the first page. Else it's a special operation.
         if(operation == null) {
             List<Screening> screenings = screeningDAO.getScreeningsPage(user, PAGE_SIZE, 0);
             request.setAttribute("screenings", screenings);

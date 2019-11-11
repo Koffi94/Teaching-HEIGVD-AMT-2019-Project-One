@@ -12,9 +12,11 @@ import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import javax.ejb.EJB;
 
+/**
+ * This class is used to test the ScreeningDAO methods
+ */
 @RunWith(Arquillian.class)
 @MavenBuild
 @DeploymentParameters(testable = true)

@@ -1,7 +1,6 @@
 package ch.heigvd.amt.projectone.services.dao;
 
 import ch.heigvd.amt.projectone.model.Movie;
-
 import org.arquillian.container.chameleon.deployment.api.DeploymentParameters;
 import org.arquillian.container.chameleon.deployment.maven.MavenBuild;
 import org.jboss.arquillian.junit.Arquillian;
@@ -10,9 +9,11 @@ import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import javax.ejb.EJB;
 
+/**
+ * This class is used to test the MovieDAO methods
+ */
 @RunWith(Arquillian.class)
 @MavenBuild
 @DeploymentParameters(testable = true)

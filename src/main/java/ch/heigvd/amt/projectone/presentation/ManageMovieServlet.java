@@ -10,11 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Servlet in charge of the management of Movies
+ */
 public class ManageMovieServlet extends HttpServlet {
     @EJB
     IMovieDAO movieManager;
 
-
+    /**
+     * This method is called when there is a POST request on /manageMovie
+     * @param request The request object
+     * @param response The response object
+     * @throws IOException
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String operation = request.getParameter("operation_post");
         String title = request.getParameter("title");
@@ -34,6 +42,13 @@ public class ManageMovieServlet extends HttpServlet {
         response.sendRedirect("./home");
     }
 
+    /**
+     * This method is called when there is a GET request on /manageMovie
+     * @param request The request object
+     * @param response The response object
+     * @throws IOException
+     * @throws ServletException
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int movieId = Integer.parseInt(request.getParameter("movie_id"));
         String operation = request.getParameter("operation_get");
