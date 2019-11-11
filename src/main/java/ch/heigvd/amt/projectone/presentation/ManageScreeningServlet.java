@@ -21,7 +21,7 @@ import java.util.List;
 
 public class ManageScreeningServlet extends HttpServlet {
 
-    final int PAGE_SIZE = 10;
+    final int PAGE_SIZE = 100;
 
     @EJB
     IScreeningDAO screeningDAO;

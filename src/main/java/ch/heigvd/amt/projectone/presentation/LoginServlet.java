@@ -3,6 +3,7 @@ package ch.heigvd.amt.projectone.presentation;
 import ch.heigvd.amt.projectone.model.User;
 import ch.heigvd.amt.projectone.services.dao.IScreeningDAO;
 import ch.heigvd.amt.projectone.services.dao.IUserDAO;
+import ch.heigvd.amt.projectone.services.dao.ScreeningDAO;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.ejb.EJB;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Servlet in charge of the login
@@ -34,7 +37,9 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         User user = userDAO.findUserByName(request.getParameter("username"));
+        long t1 = System.currentTimeMillis();
         if (user != null && BCrypt.checkpw(request.getParameter("password"), user.getPassword())) {
+            Logger.getLogger(ScreeningDAO.class.getName()).log(Level.SEVERE, "t6: " + (System.currentTimeMillis() - t1));
             // Get the old session and invalidate
             HttpSession oldSession = request.getSession(false);
             if (oldSession != null) {

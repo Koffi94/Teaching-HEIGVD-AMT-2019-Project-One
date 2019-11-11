@@ -43,10 +43,8 @@ public class CinemaDAO implements ICinemaDAO {
     @Override
     public Cinema findCinemaByName(String name) {
         Cinema cinema = null;
-
         try {
             Connection connection = dataSource.getConnection();
-
             PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM cinema WHERE name = ?");
             pstmt.setString(1, name);
             ResultSet rs = pstmt.executeQuery();
@@ -59,7 +57,6 @@ public class CinemaDAO implements ICinemaDAO {
                         .price(rs.getString("price"))
                         .build();
             }
-
             connection.close();
         } catch(SQLException e) {
             Logger.getLogger(ScreeningDAO.class.getName()).log(Level.SEVERE, null, e);
@@ -86,7 +83,6 @@ public class CinemaDAO implements ICinemaDAO {
                         .price(rs.getString("price"))
                         .build();
             }
-
             connection.close();
         } catch(SQLException e) {
             Logger.getLogger(ScreeningDAO.class.getName()).log(Level.SEVERE, null, e);
