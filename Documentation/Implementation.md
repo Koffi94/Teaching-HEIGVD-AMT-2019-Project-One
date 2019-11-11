@@ -28,3 +28,24 @@ movies
 
 **Mockup**
 ![web application mockup](./img/Mockup-ProjectOne.png)
+
+![Schema Multi-tier Architecture](./img/MultiTieredArchi.png)
+Sources: Olivier Liechti AMT 2019 Courses
+
+This project is organised in several tiers. It's a MVC based model but in our case we have tiers *Presentation, Model and Controller*.
+### Model Tier
+This tier contains domain object classes *Cinema, Movie, Screening and User*.
+You can find them in **ch.heigvd.amt.projectone.model** path in the project.
+These Java classes represent the database's tables.
+
+### Presentation Tier
+This tier contains servlet classes.
+You can find them in **ch.heigvd.amt.projectone.presentation** path in the project.
+Servlets are used to route requests and responses of the application.
+They forward on JSP pages when needed and JSP format the content and send it back. 
+Servlets filters are also use to manage authentications and authorizations.
+
+### Service Tier
+This tier contains DAO classes.
+You can find them in **ch.heigvd.amt.projectone.services.dao** path in the project.
+DAO classes are used to communicate with the MySQL database through the programming interface JDBC.
