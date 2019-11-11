@@ -88,7 +88,7 @@ public class ManageScreeningServletTest {
 
     @Nested
     class doGetTest {
-        final int PAGE_SIZE = 10;
+        final int PAGE_SIZE = 100;
         int userId = 1;
         int currentPage = 2;
         int lastPage = 10;
@@ -98,7 +98,7 @@ public class ManageScreeningServletTest {
             when(request.getSession()).thenReturn(session);
             when(session.getAttribute("user_id")).thenReturn(userId);
             when(userDAO.getUser(userId)).thenReturn(user);
-            when(screeningDAO.getScreeningsQuantity(user)).thenReturn(100);
+            when(screeningDAO.getScreeningsQuantity(user)).thenReturn(1000);
         }
 
         @Test
